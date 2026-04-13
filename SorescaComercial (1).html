@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Soresca Comercial">
+<title>Soresca Comercial</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f2f2f7;color:#1a1a1a;padding-bottom:40px}
+
+/* ALERTAS */
+.alertas{padding:0 12px;margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.alerta{background:#FF3B30;color:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;animation:pulse 2s infinite}
+.alerta.pronto{background:#FF9500}
+.alerta-txt{font-size:13px;font-weight:600;flex:1}
+.alerta-btn{background:rgba(255,255,255,0.3);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;cursor:pointer}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.85}}
+
+/* HEADER */
+.header{background:#fff;padding:14px 12px 10px;border-bottom:1px solid #e0e0e0;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:8px}
+.header-brand h1{font-size:20px;font-weight:800;color:#1a1a1a;letter-spacing:-.3px}
+.header-brand p{font-size:11px;color:#888;margin-top:1px}
+.marcador{display:flex;gap:7px;flex-wrap:wrap}
+.burbuja{background:#f9f9f9;border:1px solid #e5e5e5;border-radius:14px;padding:9px 13px;min-width:140px;flex:1}
+.b-nombre{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.b-val{font-size:19px;font-weight:800;color:#2e7d32}
+.b-pct{font-size:10px;color:#aaa;margin-top:1px}
+.b-items{margin-top:5px;max-height:64px;overflow-y:auto}
+.b-item{font-size:10px;color:#555;background:#fff;border-radius:5px;padding:2px 7px;margin-bottom:2px;border:1px solid #eee}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:10px 12px;background:#fff;border-bottom:1px solid #e5e5e5}
+.stat{border-radius:10px;padding:7px 4px;text-align:center}
+.stat-n{font-size:16px;font-weight:800}
+.stat-l{font-size:9px;color:#888;margin-top:1px}
+.stat.am{background:#fffde7}.stat.na{background:#fff3e0}.stat.ve{background:#e8f5e9}.stat.ro{background:#ffebee}.stat.az{background:#e3f2fd}
+
+/* TOOLBAR */
+.toolbar{padding:9px 12px;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;gap:8px}
+.toolbar input{flex:1;padding:9px 14px;border:1px solid #ddd;border-radius:22px;font-size:13px;background:#f9f9f9;outline:none}
+.btn-add{background:#1a1a1a;color:#fff;border:none;border-radius:22px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* TABS */
+.tabs{display:flex;gap:6px;padding:9px 12px;overflow-x:auto;background:#fff;border-bottom:1px solid #e5e5e5}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:5px 12px;border:1px solid #ddd;border-radius:22px;font-size:12px;cursor:pointer;background:#fff;color:#666;white-space:nowrap;flex-shrink:0;font-weight:500}
+.tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+/* RESUMEN */
+.resumen{margin:10px 12px 0;background:#fff;border-radius:12px;padding:10px 14px;border:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.res-item{text-align:center}
+.res-label{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.3px}
+.res-val{font-size:14px;font-weight:700;margin-top:1px}
+
+/* LISTA */
+.list{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+
+/* CARDS */
+.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card.am{border-left:4px solid #FBC02D}
+.card.na{border-left:4px solid #FB8C00}
+.card.ve{border-left:4px solid #43A047}
+.card.ro{border-left:4px solid #E53935}
+.card.az{border-left:4px solid #1976D2}
+.card-top{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.av.am{background:#fff9c4;color:#f57f17}
+.av.na{background:#ffe0b2;color:#e65100}
+.av.ve{background:#c8e6c9;color:#1b5e20}
+.av.ro{background:#ffcdd2;color:#b71c1c}
+.av.az{background:#bbdefb;color:#0d47a1}
+.card-info{flex:1;min-width:0}
+.card-name{font-weight:700;font-size:14px}
+.card-sub{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;white-space:nowrap;font-weight:700}
+.badge.am{background:#fff9c4;color:#f57f17}
+.badge.na{background:#ffe0b2;color:#e65100}
+.badge.ve{background:#c8e6c9;color:#1b5e20}
+.badge.ro{background:#ffcdd2;color:#b71c1c}
+.badge.az{background:#bbdefb;color:#0d47a1}
+.cuenta-atras{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:#e3f2fd;color:#1565c0}
+.cuenta-atras.urgente{background:#ffebee;color:#c62828}
+.cuenta-atras.pronto{background:#fff3e0;color:#e65100}
+
+/* DETALLE */
+.detail{display:none;padding:0 14px 14px;border-top:1px solid #f0f0f0}
+.detail.open{display:block}
+.det-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0}
+.det-field .lbl{font-size:10px;color:#aaa;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+.det-field .val{font-size:13px;font-weight:600}
+.det-field .val a{color:#1976D2;text-decoration:none}
+.btn-llamar{display:block;background:#34C759;color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;margin:4px 0 10px;width:100%;text-decoration:none}
+.btn-llamar:active{opacity:.8}
+
+/* TEMPORIZADOR AZUL */
+.temporizador{background:#e3f2fd;border-radius:10px;padding:10px 14px;margin:6px 0;display:flex;justify-content:space-between;align-items:center}
+.temp-label{font-size:12px;color:#1565c0;font-weight:600}
+.temp-fecha{font-size:11px;color:#5c8aad;margin-top:2px}
+.temp-dias{font-size:22px;font-weight:800;color:#1976D2}
+.temp-dias-label{font-size:10px;color:#5c8aad;text-align:right}
+.temp-dias.cero{color:#E53935}
+.temp-dias.poco{color:#FB8C00}
+
+/* PRESUPUESTOS */
+.pres-title{font-size:11px;font-weight:700;color:#aaa;margin:8px 0 5px;text-transform:uppercase;letter-spacing:.3px}
+.pres-item{background:#f9f9f9;border-radius:10px;padding:10px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;border:1px solid #eee}
+.pres-ref{font-size:12px;font-weight:700}
+.pres-desc{font-size:11px;color:#888;margin-top:2px}
+.pres-right{text-align:right;flex-shrink:0}
+.pres-imp{font-size:13px;font-weight:800;color:#2e7d32}
+.pres-com{font-size:10px;color:#888;margin-top:2px}
+.total-box{background:#f0f9f1;border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin:4px 0 8px;border:1px solid #c8e6c9}
+.total-box .lbl{font-size:11px;color:#555}
+.total-box .vals .v1{font-size:14px;font-weight:800;text-align:right}
+.total-box .vals .v2{font-size:10px;color:#2e7d32;text-align:right;margin-top:1px}
+
+/* HISTORIAL */
+.hist-title{font-size:11px;font-weight:700;color:#aaa;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.3px}
+.hist-list{max-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.hist-item{background:#f9f9f9;border-radius:8px;padding:8px 10px;border:1px solid #eee}
+.hist-fecha{font-size:10px;color:#aaa;margin-bottom:2px}
+.hist-txt{font-size:12px;line-height:1.4}
+
+/* NOTA AREA */
+.nota-area{margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0}
+.nota-label{font-size:11px;font-weight:700;color:#aaa;margin-bottom:7px;text-transform:uppercase;letter-spacing:.3px}
+.mic-row{display:flex;gap:8px;align-items:flex-start}
+.mic-btn{width:38px;height:38px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mic-btn.rec{background:#ffcdd2;border-color:#e53935}
+.nota-area textarea{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;resize:none;height:62px;font-family:inherit;outline:none;width:100%}
+.rec-ind{font-size:11px;color:#b71c1c;display:none;align-items:center;gap:5px;margin-top:5px}
+.rec-ind.show{display:flex}
+.dot{width:7px;height:7px;border-radius:50%;background:#e53935;animation:bl 1s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
+.est-btns{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0 8px}
+.est-btn{padding:6px 11px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid transparent;font-weight:700}
+.est-btn.am{background:#fff9c4;color:#f57f17;border-color:#fbc02d}
+.est-btn.na{background:#ffe0b2;color:#e65100;border-color:#fb8c00}
+.est-btn.ve{background:#c8e6c9;color:#1b5e20;border-color:#43a047}
+.est-btn.ro{background:#ffcdd2;color:#b71c1c;border-color:#e53935}
+.est-btn.az{background:#bbdefb;color:#0d47a1;border-color:#1976d2}
+.est-btn.sel{box-shadow:0 0 0 2.5px #1a1a1a}
+.nota-btns{display:flex;gap:8px;margin-top:6px}
+.btn-save{background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;flex:1}
+
+/* FECHA FUTURO */
+.fecha-futuro{margin-top:8px}
+.fecha-futuro label{font-size:11px;font-weight:700;color:#1565c0;display:block;margin-bottom:4px}
+.fecha-futuro input{padding:8px 12px;border:1px solid #90caf9;border-radius:8px;font-size:13px;background:#e3f2fd;color:#1a1a1a;outline:none;width:100%}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:200;padding:16px;overflow-y:auto}
+.modal-bg.open{display:block}
+.modal{background:#fff;border-radius:18px;padding:20px;max-width:500px;margin:10px auto}
+.modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
+.modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
+.modal input,.modal select,.modal textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none;font-family:inherit}
+.modal textarea{height:60px;resize:none}
+.pdf-zone{border:2px dashed #ddd;border-radius:10px;padding:14px;text-align:center;margin:10px 0;cursor:pointer;font-size:12px;color:#888;background:#fafafa}
+.pdf-zone input{display:none}
+.pdf-ok{font-size:12px;color:#2e7d32;margin-top:5px;font-weight:700}
+.modal-btns{display:flex;gap:8px;margin-top:16px}
+.modal-btns .btn-save{padding:11px}
+.btn-cancel{flex:1;background:#fff;color:#1a1a1a;border:1.5px solid #ddd;border-radius:10px;padding:11px;font-size:13px;font-weight:600;cursor:pointer}
+.new-est-btns{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0 2px}
+.empty{text-align:center;padding:40px 20px;color:#bbb;font-size:14px}
+.fecha-futuro-modal{margin-top:6px;display:none}
+.fecha-futuro-modal.show{display:block}
+.fecha-futuro-modal label{color:#1565c0}
+.fecha-futuro-modal input{background:#e3f2fd;border-color:#90caf9}
+</style>
+</head>
+<body>
+
+<div id="alertas-container"></div>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-brand">
+      <h1>Soresca Comercial</h1>
+      <p>Cerramientos de aluminio · Zaragoza</p>
+    </div>
+  </div>
+  <div class="marcador">
+    <div class="burbuja">
+      <div class="b-nombre">Luis · Solo</div>
+      <div class="b-val" id="com-luis">0,00 €</div>
+      <div class="b-pct">4% sobre contratos</div>
+      <div class="b-items" id="bl-luis"></div>
+    </div>
+    <div class="burbuja">
+      <div class="b-nombre">Luis y Cristian</div>
+      <div class="b-val" id="com-cris">0,00 €</div>
+      <div class="b-pct">2% sobre contratos</div>
+      <div class="b-items" id="bl-cris"></div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat am"><div class="stat-n" id="s-am" style="color:#f57f17">0</div><div class="stat-l">Nuevos</div></div>
+  <div class="stat na"><div class="stat-n" id="s-na" style="color:#e65100">0</div><div class="stat-l">Seguim.</div></div>
+  <div class="stat ve"><div class="stat-n" id="s-ve" style="color:#2e7d32">0</div><div class="stat-l">Contratan</div></div>
+  <div class="stat ro"><div class="stat-n" id="s-ro" style="color:#c62828">0</div><div class="stat-l">No contr.</div></div>
+  <div class="stat az"><div class="stat-n" id="s-az" style="color:#1565c0">0</div><div class="stat-l">Futuro</div></div>
+</div>
+
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Buscar cliente, dirección..." oninput="render()">
+  <button class="btn-add" onclick="abrirModal()">+ Nuevo</button>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="setTab('todos',this)">Todos</div>
+  <div class="tab" onclick="setTab('amarillo',this)">🟡 Nuevos</div>
+  <div class="tab" onclick="setTab('naranja',this)">🟠 Seguimiento</div>
+  <div class="tab" onclick="setTab('verde',this)">🟢 Contratan</div>
+  <div class="tab" onclick="setTab('rojo',this)">🔴 No contratan</div>
+  <div class="tab" onclick="setTab('azul',this)">🔵 Futuro</div>
+</div>
+
+<div id="resumen-box"></div>
+<div class="list" id="list"></div>
+
+<!-- MODAL NUEVO CLIENTE -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3>Nuevo cliente</h3>
+    <label class="pdf-zone" id="pdf-label">
+      <input type="file" id="pdf-input" accept=".pdf" onchange="cargarPDF(event)">
+      📄 Sube el PDF del presupuesto
+      <div class="pdf-ok" id="pdf-ok" style="display:none"></div>
+    </label>
+    <label>Nombre y apellidos *</label>
+    <input type="text" id="n-nombre" placeholder="Ej: Ana García">
+    <label>Teléfono</label>
+    <input type="tel" id="n-tel" placeholder="600 000 000">
+    <label>Email</label>
+    <input type="email" id="n-email" placeholder="correo@email.com">
+    <label>Dirección</label>
+    <input type="text" id="n-dir" placeholder="Calle, número, ciudad">
+    <label>Ref. presupuesto</label>
+    <input type="text" id="n-ref" placeholder="2026.01.XXX">
+    <label>Importe total (€)</label>
+    <input type="number" id="n-imp" placeholder="15000">
+    <label>Descripción del presupuesto</label>
+    <input type="text" id="n-desc" placeholder="Cerramiento aluminio ral 9006...">
+    <label>Nota inicial</label>
+    <textarea id="n-nota" placeholder="Comentario inicial..."></textarea>
+    <label>Estado</label>
+    <div class="new-est-btns">
+      <button class="est-btn am sel" id="neb-am" onclick="selNuevoEst('amarillo')">🟡 Nuevo</button>
+      <button class="est-btn na" id="neb-na" onclick="selNuevoEst('naranja')">🟠 Seguimiento</button>
+      <button class="est-btn ve" id="neb-ve" onclick="selNuevoEst('verde')">🟢 Contrata</button>
+      <button class="est-btn ro" id="neb-ro" onclick="selNuevoEst('rojo')">🔴 No contrata</button>
+      <button class="est-btn az" id="neb-az" onclick="selNuevoEst('azul')">🔵 Futuro</button>
+    </div>
+    <div class="fecha-futuro-modal" id="fecha-futuro-modal">
+      <label>Fecha estimada de compra</label>
+      <input type="date" id="n-fecha-futuro">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-save" onclick="guardarNuevo()">Guardar cliente</button>
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var ORDEN=['amarillo','naranja','azul','verde','rojo'];
+var tabActual='todos', abierto=null, nuevoEst='amarillo', grabando=false, mediaRec=null, nextId=100;
+
+var clientes=[
+  {id:1,nombre:"Ana García",tel:"622888782",email:"joseluisyana@live.com",dir:"C/ Salomón y la Reina de Saba nº 36 7ºA",estado:"amarillo",fechaFuturo:"",
+   pres:[{ref:"2026.01.123",imp:20318.20,desc:"Cerramiento ral 9006 · techo fijo + cortina cristal + grúa"},{ref:"2026.01.124",imp:5445.18,desc:"Avance terraza · techo fijo + fijo lateral"}],
+   hist:[{f:"05/02/2026",t:"Presupuestos 123 y 124 enviados. Total: 25.763 €"}]},
+  {id:2,nombre:"Víctor",tel:"699097663",email:"vclares@hotmail.es",dir:"C/ Enriqueta Castejón nº 20 esc. 2 2ºA",estado:"amarillo",fechaFuturo:"",
+   pres:[{ref:"2026.01.127",imp:9521.49,desc:"Cerramiento ral 7035/7040 · techo + cortina abatible DG28"}],
+   hist:[{f:"05/02/2026",t:"Presupuesto 127 enviado"}]},
+  {id:3,nombre:"Ernesto Sebastián",tel:"620332731",email:"ernestosebastian23@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 1 5ºA",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"2026.01.125",imp:23832.16,desc:"Cerramiento blanco · techo + DG20 + grúa"},{ref:"2026.01.126",imp:35341.68,desc:"Cerramiento blanco · pérgola mixta + DG20 + grúa"}],
+   hist:[{f:"05/02/2026",t:"Opciones: económica (125) y premium (126)"}]},
+  {id:4,nombre:"Henry",tel:"635898623",email:"enriquealviarsilva@gmail.com",dir:"Av. Ribaforada nº 27, Ablitas",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"2026.01.120",imp:17840.24,desc:"Techo móvil manual TM16 x2"},{ref:"2026.01.121",imp:25684.67,desc:"Techo móvil manual + motorizado DG26"}],
+   hist:[{f:"05/02/2026",t:"Presupuestos 120 y 121 enviados"},{f:"13/04/2026",t:"No responde"}]},
+  {id:5,nombre:"Noelia",tel:"686954241",email:"noeliabellostasmuguerza@gmail.com",dir:"C/ Salomón y la Reina de Saba nº 20 5ºA",estado:"amarillo",fechaFuturo:"",
+   pres:[{ref:"2026.01.142",imp:28508.81,desc:"Cerramiento ral 9006 · techo + cortinas DG20 + DG24 + grúa"}],
+   hist:[{f:"14/02/2026",t:"Presupuesto 142 enviado"}]},
+  {id:6,nombre:"Julio y Belén",tel:"654712022",email:"juliov.g.luintra@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 7 5ºA",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"2026.01.141",imp:23173.92,desc:"Cerramiento blanco · techo 6840x7000 + DG20 + grúa"}],
+   hist:[{f:"14/02/2026",t:"Presupuesto 141 enviado"},{f:"13/04/2026",t:"Llamar miércoles a las 17h"}]},
+  {id:7,nombre:"Marc Cleries",tel:"651351119",email:"marc.cleries4@gmail.com",dir:"C/ Picasso nº 4 6º 5ª, Lérida",estado:"rojo",fechaFuturo:"",
+   pres:[{ref:"2026.01.138",imp:22057.00,desc:"Cerramiento plata · pérgola bioclimática DG210 + DG20"}],
+   hist:[{f:"14/02/2026",t:"Presupuesto 138 enviado"},{f:"13/04/2026",t:"No contrata"}]},
+  {id:8,nombre:"Laura",tel:"605687575",email:"lauramartintarifa8@gmail.com",dir:"C/ Pierrette Gargallo nº 8 8ºA",estado:"amarillo",fechaFuturo:"",
+   pres:[{ref:"2026.01.135",imp:6480.76,desc:"Cortina abatible DG28 ral 7016 forma L"},{ref:"2026.01.136",imp:5498.24,desc:"Cortina abatible DG24 ral 7016 forma L (económica)"}],
+   hist:[{f:"14/02/2026",t:"Opciones DG28 (135) y DG24 económica (136)"}]},
+  {id:9,nombre:"Eduardo",tel:"647780750",email:"eduardo.sicilia@facigroup.com",dir:"Av. Aragón nº 17, Urb. El Condado",estado:"amarillo",fechaFuturo:"",
+   pres:[{ref:"2026.01.249",imp:55886.27,desc:"Pérgola bioclimática DG210 ral 7016 · 3 módulos + DG20 x4"}],
+   hist:[{f:"23/03/2026",t:"Presupuesto 249 enviado. Obra grande: 55.886 €"}]},
+  {id:10,nombre:"Antonio",tel:"",email:"",dir:"Oliver, Zaragoza",estado:"verde",fechaFuturo:"",
+   pres:[],hist:[{f:"13/04/2026",t:"Contrata con financiación. Quiere info del proceso"}]},
+  {id:11,nombre:"Clara",tel:"",email:"",dir:"Tenor Fleta, Zaragoza",estado:"naranja",fechaFuturo:"",
+   pres:[],hist:[{f:"10/03/2026",t:"Llamar el viernes. Está mirando todo"}]},
+  {id:12,nombre:"Jaime",tel:"",email:"",dir:"Luesia",estado:"naranja",fechaFuturo:"",
+   pres:[],hist:[{f:"13/04/2026",t:"Llamar miércoles. Se les va de presupuesto a priori"}]},
+  {id:13,nombre:"Víctor Sunadiel",tel:"",email:"",dir:"Lérida",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"132",imp:10442.00,desc:"Pendiente cierre visita en tienda"}],
+   hist:[{f:"13/04/2026",t:"Llamar para cerrar visita en tienda"}]},
+  {id:14,nombre:"Victor Sancho",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"179/180",imp:36569.83,desc:"Dos opciones enviadas"}],
+   hist:[{f:"13/04/2026",t:"Parece interesado pero no responde"}]},
+  {id:15,nombre:"Noé",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"178",imp:16723.41,desc:"No había mirado el presupuesto"}],
+   hist:[{f:"13/04/2026",t:"No cogió el teléfono. Llamar miércoles 10:30h"}]},
+  {id:16,nombre:"Ana Cabanillas",tel:"",email:"",dir:"Cadreita",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"177",imp:9889.33,desc:"Lo ven muy caro a priori"}],
+   hist:[{f:"13/04/2026",t:"Mandar 2º presupuesto"}]},
+  {id:17,nombre:"Teresa",tel:"",email:"",dir:"Movera, Zaragoza",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"158/159",imp:44490.49,desc:"Esperando presupuesto de albañil"}],
+   hist:[{f:"13/04/2026",t:"Llamar viernes. Esperando presu de albañil"}]},
+  {id:18,nombre:"Ismael Callejas",tel:"",email:"",dir:"Calle Benasque, Zaragoza",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"187",imp:21355.29,desc:"Consultar si les hago seguimiento"}],
+   hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
+  {id:19,nombre:"Mariano Gil",tel:"",email:"",dir:"Calle Lagos de Coronas",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"182",imp:5244.14,desc:"Consultar si les hago seguimiento"}],
+   hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
+  {id:20,nombre:"Andrea",tel:"",email:"",dir:"Boltaña",estado:"naranja",fechaFuturo:"",
+   pres:[{ref:"118",imp:10286.21,desc:"No responde"}],
+   hist:[{f:"13/04/2026",t:"No responde"}]},
+  {id:21,nombre:"Eva",tel:"",email:"",dir:"Ismael Hipólito, Zaragoza",estado:"naranja",fechaFuturo:"",
+   pres:[],hist:[{f:"13/04/2026",t:"No responde"}]},
+  {id:22,nombre:"Fernando",tel:"",email:"",dir:"Torre Barajas",estado:"rojo",fechaFuturo:"",
+   pres:[],hist:[{f:"13/04/2026",t:"No contrata. Le parece muy caro"}]},
+  {id:23,nombre:"Fernando",tel:"",email:"",dir:"Montmesa",estado:"rojo",fechaFuturo:"",
+   pres:[],hist:[{f:"13/04/2026",t:"No contrata por ahora. Otras prioridades"}]}
+];
+
+var saved=localStorage.getItem('soresca_v2');
+if(saved){try{clientes=JSON.parse(saved)}catch(e){}}
+function save(){localStorage.setItem('soresca_v2',JSON.stringify(clientes))}
+function fmtE(n){return(+n).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
+function ini(n){var p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
+function totalP(c){return c.pres.reduce(function(s,p){return s+(p.imp||0)},0)}
+function badgeL(e){
+  if(e==='verde') return '🟢 Contrata';
+  if(e==='rojo') return '🔴 No contrata';
+  if(e==='naranja') return '🟠 Seguimiento';
+  if(e==='azul') return '🔵 Futuro';
+  return '🟡 Nuevo';
+}
+function cls(e){
+  if(e==='verde') return 've';
+  if(e==='rojo') return 'ro';
+  if(e==='naranja') return 'na';
+  if(e==='azul') return 'az';
+  return 'am';
+}
+function now(){
+  var d=new Date();
+  return d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear()+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+function diasRestantes(fechaStr){
+  if(!fechaStr) return null;
+  var hoy=new Date(); hoy.setHours(0,0,0,0);
+  var obj=new Date(fechaStr); obj.setHours(0,0,0,0);
+  return Math.round((obj-hoy)/(1000*60*60*24));
+}
+
+function renderAlertas(){
+  var cont=document.getElementById('alertas-container');
+  var alertas=clientes.filter(function(c){
+    if(c.estado!=='azul'||!c.fechaFuturo) return false;
+    var d=diasRestantes(c.fechaFuturo);
+    return d!==null && d<=7;
+  });
+  if(!alertas.length){cont.innerHTML='';return}
+  cont.innerHTML='<div class="alertas">'+alertas.map(function(c){
+    var d=diasRestantes(c.fechaFuturo);
+    var esCero=d<=0;
+    return '<div class="alerta'+(esCero?'':' pronto')+'">'+
+      '<div class="alerta-txt">'+(esCero?'🔔 ¡LLAMA AHORA a '+c.nombre+'! Fecha de compra alcanzada':'⏰ Esta semana: llama a '+c.nombre+' (quedan '+d+' días)')+'</div>'+
+      '<button class="alerta-btn" onclick="abrirCliente('+c.id+')">'+(c.tel?'Llamar':'Ver')+'</button>'+
+    '</div>';
+  }).join('')+'</div>';
+}
+
+function abrirCliente(id){abierto=id;tabActual='todos';document.querySelectorAll('.tab').forEach(function(x,i){x.classList.toggle('active',i===0)});render();setTimeout(function(){var el=document.getElementById('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},100)}
+
+function updateStats(){
+  var contr=clientes.filter(function(c){return c.estado==='verde'});
+  var tl=contr.reduce(function(s,c){return s+totalP(c)*0.04},0);
+  var tc=contr.reduce(function(s,c){return s+totalP(c)*0.02},0);
+  document.getElementById('com-luis').textContent=fmtE(tl);
+  document.getElementById('com-cris').textContent=fmtE(tc);
+  var bll=document.getElementById('bl-luis');
+  var blc=document.getElementById('bl-cris');
+  bll.innerHTML=contr.length?contr.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.04):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos aún</div>';
+  blc.innerHTML=contr.length?contr.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.02):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos aún</div>';
+  document.getElementById('s-am').textContent=clientes.filter(function(c){return c.estado==='amarillo'}).length;
+  document.getElementById('s-na').textContent=clientes.filter(function(c){return c.estado==='naranja'}).length;
+  document.getElementById('s-ve').textContent=clientes.filter(function(c){return c.estado==='verde'}).length;
+  document.getElementById('s-ro').textContent=clientes.filter(function(c){return c.estado==='rojo'}).length;
+  document.getElementById('s-az').textContent=clientes.filter(function(c){return c.estado==='azul'}).length;
+}
+
+function renderResumen(){
+  var activos=clientes.filter(function(c){return c.estado==='amarillo'||c.estado==='naranja'||c.estado==='azul'});
+  var totalActivos=activos.reduce(function(s,c){return s+totalP(c)},0);
+  var totalContratos=clientes.filter(function(c){return c.estado==='verde'}).reduce(function(s,c){return s+totalP(c)},0);
+  var box=document.getElementById('resumen-box');
+  if(totalActivos===0&&totalContratos===0){box.innerHTML='';return}
+  box.innerHTML='<div class="resumen">'+
+    '<div class="res-item"><div class="res-label">Pendiente cerrar</div><div class="res-val" style="color:#e65100">'+fmtE(totalActivos)+'</div></div>'+
+    '<div class="res-item"><div class="res-label">Cerrado</div><div class="res-val" style="color:#2e7d32">'+fmtE(totalContratos)+'</div></div>'+
+    '<div class="res-item"><div class="res-label">Luis ganado</div><div class="res-val" style="color:#1976D2">'+fmtE(totalContratos*0.04)+'</div></div>'+
+    '<div class="res-item"><div class="res-label">+Cristian</div><div class="res-val" style="color:#7b1fa2">'+fmtE(totalContratos*0.02)+'</div></div>'+
+  '</div>';
+}
+
+function setTab(t,el){tabActual=t;abierto=null;document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});el.classList.add('active');render()}
+
+function render(){
+  renderAlertas();
+  updateStats();
+  renderResumen();
+  var q=(document.getElementById('search').value||'').toLowerCase();
+  var lista=clientes.filter(function(c){
+    if(tabActual!=='todos'&&c.estado!==tabActual) return false;
+    if(q&&!(c.nombre+' '+c.dir+(c.tel||'')+(c.email||'')).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  lista.sort(function(a,b){return ORDEN.indexOf(a.estado)-ORDEN.indexOf(b.estado)});
+  var el=document.getElementById('list');
+  if(!lista.length){el.innerHTML='<div class="empty">No hay clientes en esta categoría</div>';return}
+  el.innerHTML=lista.map(function(c){
+    var isOpen=abierto===c.id;
+    var cl=cls(c.estado);
+    var total=totalP(c);
+    var sub=c.dir+(c.tel?' · '+c.tel:'');
+    var dias=c.estado==='azul'&&c.fechaFuturo?diasRestantes(c.fechaFuturo):null;
+    var caHtml='';
+    if(dias!==null){
+      var caClass=dias<=0?'urgente':dias<=7?'pronto':'';
+      caHtml='<div class="cuenta-atras '+caClass+'">'+(dias<=0?'¡Hoy!':dias+' días')+'</div>';
+    }
+    var presHtml=c.pres.length?c.pres.map(function(p){
+      return '<div class="pres-item">'+
+        '<div><div class="pres-ref">Ref. '+p.ref+'</div><div class="pres-desc">'+p.desc+'</div></div>'+
+        '<div class="pres-right"><div class="pres-imp">'+fmtE(p.imp)+'</div><div class="pres-com">Luis: '+fmtE(p.imp*0.04)+'<br>Con Cristian: '+fmtE(p.imp*0.02)+'</div></div>'+
+      '</div>';
+    }).join(''):'<div style="font-size:12px;color:#bbb;padding:4px 0">Sin presupuesto registrado</div>';
+    var histHtml=c.hist.slice().reverse().map(function(h){return '<div class="hist-item"><div class="hist-fecha">'+h.f+'</div><div class="hist-txt">'+h.t+'</div></div>'}).join('');
+    var tempHtml='';
+    if(c.estado==='azul'&&c.fechaFuturo&&dias!==null){
+      var fd=new Date(c.fechaFuturo);
+      var fechaStr=fd.getDate().toString().padStart(2,'0')+'/'+(fd.getMonth()+1).toString().padStart(2,'0')+'/'+fd.getFullYear();
+      tempHtml='<div class="temporizador">'+
+        '<div><div class="temp-label">📅 Fecha estimada compra</div><div class="temp-fecha">'+fechaStr+'</div></div>'+
+        '<div style="text-align:right"><div class="temp-dias'+(dias<=0?' cero':dias<=7?' poco':'')+'">'+(dias<=0?'¡HOY!':dias)+'</div><div class="temp-dias-label">'+(dias>0?'días restantes':'fecha alcanzada')+'</div></div>'+
+      '</div>';
+    }
+    return '<div class="card '+cl+'" id="c-'+c.id+'">'+
+      '<div class="card-top" onclick="toggle('+c.id+')">'+
+        '<div class="av '+cl+'">'+ini(c.nombre)+'</div>'+
+        '<div class="card-info"><div class="card-name">'+c.nombre+'</div><div class="card-sub">'+sub+'</div></div>'+
+        '<div class="card-right"><span class="badge '+cl+'">'+badgeL(c.estado)+'</span>'+caHtml+'</div>'+
+      '</div>'+
+      (isOpen?
+        '<div class="detail open">'+
+          (c.tel?'<a class="btn-llamar" href="tel:'+c.tel+'">📞 Llamar a '+c.nombre+'</a>':'')+
+          '<div class="det-row">'+
+            '<div class="det-field"><div class="lbl">Teléfono</div><div class="val">'+(c.tel?'<a href="tel:'+c.tel+'">'+c.tel+'</a>':'—')+'</div></div>'+
+            '<div class="det-field"><div class="lbl">Email</div><div class="val">'+(c.email?'<a href="mailto:'+c.email+'">'+c.email+'</a>':'—')+'</div></div>'+
+            '<div class="det-field" style="grid-column:1/-1"><div class="lbl">Dirección</div><div class="val">'+c.dir+'</div></div>'+
+          '</div>'+
+          tempHtml+
+          '<div class="pres-title">Presupuestos</div>'+presHtml+
+          (total>0?'<div class="total-box"><div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'')+
+          '<div class="hist-title">Historial de llamadas y notas</div>'+
+          '<div class="hist-list">'+(histHtml||'<div style="font-size:12px;color:#bbb">Sin registros aún</div>')+'</div>'+
+          '<div class="nota-area">'+
+            '<div class="nota-label">Añadir nota · cambiar estado</div>'+
+            '<div class="mic-row">'+
+              '<button class="mic-btn" id="mic-'+c.id+'" onclick="toggleMic('+c.id+')" title="Grabar nota de voz">'+
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>'+
+              '</button>'+
+              '<textarea id="ta-'+c.id+'" placeholder="Resultado de llamada, nota importante..."></textarea>'+
+            '</div>'+
+            '<div class="rec-ind" id="ri-'+c.id+'"><div class="dot"></div>Grabando... habla ahora</div>'+
+            '<div class="est-btns">'+
+              '<button class="est-btn am'+(c.estado==='amarillo'?' sel':'')+'" onclick="cambEst('+c.id+',\'amarillo\')">🟡 Nuevo</button>'+
+              '<button class="est-btn na'+(c.estado==='naranja'?' sel':'')+'" onclick="cambEst('+c.id+',\'naranja\')">🟠 Seguimiento</button>'+
+              '<button class="est-btn ve'+(c.estado==='verde'?' sel':'')+'" onclick="cambEst('+c.id+',\'verde\')">🟢 Contrata</button>'+
+              '<button class="est-btn ro'+(c.estado==='rojo'?' sel':'')+'" onclick="cambEst('+c.id+',\'rojo\')">🔴 No contrata</button>'+
+              '<button class="est-btn az'+(c.estado==='azul'?' sel':'')+'" onclick="cambEst('+c.id+',\'azul\')">🔵 Futuro</button>'+
+            '</div>'+
+            (c.estado==='azul'?'<div class="fecha-futuro"><label>Fecha estimada de compra</label><input type="date" id="fd-'+c.id+'" value="'+(c.fechaFuturo||'')+'" onchange="cambiarFecha('+c.id+',this.value)"></div>':'')+
+            '<div class="nota-btns"><button class="btn-save" onclick="guardarNota('+c.id+')">Guardar nota</button></div>'+
+          '</div>'+
+        '</div>'
+      :'')+
+    '</div>';
+  }).join('');
+}
+
+function toggle(id){abierto=abierto===id?null:id;render();if(abierto){setTimeout(function(){var el=document.getElementById('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},80)}}
+
+function cambEst(id,est){
+  var c=clientes.find(function(x){return x.id===id});
+  if(!c) return;
+  c.estado=est;
+  if(est==='azul'&&!c.fechaFuturo){
+    var d=new Date(); d.setMonth(d.getMonth()+2);
+    c.fechaFuturo=d.toISOString().split('T')[0];
+  }
+  c.hist.push({f:now(),t:'Estado cambiado a: '+badgeL(est)});
+  save(); abierto=id; render();
+}
+
+function cambiarFecha(id,val){
+  var c=clientes.find(function(x){return x.id===id});
+  if(!c) return;
+  c.fechaFuturo=val;
+  save(); render();
+}
+
+function guardarNota(id){
+  var c=clientes.find(function(x){return x.id===id});
+  if(!c) return;
+  var txt=(document.getElementById('ta-'+id).value||'').trim();
+  if(!txt){alert('Escribe una nota primero');return}
+  c.hist.push({f:now(),t:txt});
+  save(); abierto=id; render();
+}
+
+function abrirModal(){
+  document.getElementById('modal-bg').classList.add('open');
+  nuevoEst='amarillo';
+  ['am','na','ve','ro','az'].forEach(function(k){document.getElementById('neb-'+k).classList.remove('sel')});
+  document.getElementById('neb-am').classList.add('sel');
+  document.getElementById('fecha-futuro-modal').classList.remove('show');
+  var d=new Date(); d.setMonth(d.getMonth()+2);
+  document.getElementById('n-fecha-futuro').value=d.toISOString().split('T')[0];
+}
+function cerrarModal(){document.getElementById('modal-bg').classList.remove('open')}
+
+function selNuevoEst(e){
+  nuevoEst=e;
+  var map={amarillo:'am',naranja:'na',verde:'ve',rojo:'ro',azul:'az'};
+  ['am','na','ve','ro','az'].forEach(function(k){document.getElementById('neb-'+k).classList.remove('sel')});
+  document.getElementById('neb-'+map[e]).classList.add('sel');
+  document.getElementById('fecha-futuro-modal').classList.toggle('show',e==='azul');
+}
+
+function cargarPDF(event){
+  var f=event.target.files[0];
+  if(!f) return;
+  var ok=document.getElementById('pdf-ok');
+  ok.style.display='block';
+  ok.textContent='✓ '+f.name+' cargado — rellena los campos manualmente';
+}
+
+function guardarNuevo(){
+  var nombre=(document.getElementById('n-nombre').value||'').trim();
+  if(!nombre){alert('El nombre es obligatorio');return}
+  var imp=parseFloat((document.getElementById('n-imp').value||'').replace(',','.'))||0;
+  var ref=(document.getElementById('n-ref').value||'').trim();
+  var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';
+  var c={id:nextId++,nombre:nombre,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,pres:[],hist:[]};
+  if(ref||imp>0) c.pres.push({ref:ref||'—',imp:imp,desc:(document.getElementById('n-desc').value||'').trim()||'Presupuesto'});
+  var nota=(document.getElementById('n-nota').value||'').trim();
+  c.hist.push({f:now(),t:nota||'Cliente añadido'});
+  clientes.unshift(c);
+  ['n-nombre','n-tel','n-email','n-dir','n-ref','n-imp','n-desc','n-nota'].forEach(function(id){document.getElementById(id).value=''});
+  document.getElementById('pdf-ok').style.display='none';
+  save(); cerrarModal(); abierto=c.id; render();
+}
+
+function toggleMic(id){
+  if(grabando){if(mediaRec)mediaRec.stop();grabando=false;return}
+  if(!navigator.mediaDevices){alert('Escribe la nota manualmente');return}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    var chunks=[];
+    mediaRec=new MediaRecorder(stream);
+    grabando=true;
+    var btn=document.getElementById('mic-'+id);
+    var ind=document.getElementById('ri-'+id);
+    if(btn)btn.classList.add('rec');
+    if(ind)ind.classList.add('show');
+    mediaRec.ondataavailable=function(e){chunks.push(e.data)};
+    mediaRec.onstop=function(){
+      grabando=false;
+      stream.getTracks().forEach(function(t){t.stop()});
+      if(btn)btn.classList.remove('rec');
+      if(ind)ind.classList.remove('show');
+      var ta=document.getElementById('ta-'+id);
+      if(ta){ta.placeholder='Grabación lista — escribe aquí lo que dijiste';ta.focus()}
+    };
+    mediaRec.start();
+    setTimeout(function(){if(grabando&&mediaRec)mediaRec.stop()},30000);
+  }).catch(function(){alert('No se pudo acceder al micrófono')});
+}
+
+document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
+
+render();
+</script>
+</body>
+</html>
