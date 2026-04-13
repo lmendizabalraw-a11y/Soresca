@@ -133,6 +133,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .fecha-futuro-modal.show{display:block}
 .fecha-futuro-modal label{color:#1565c0}
 .fecha-futuro-modal input{background:#e3f2fd;border-color:#90caf9}
+.edit-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:300;padding:16px;overflow-y:auto}
+.edit-modal-bg.open{display:block}
+.edit-modal{background:#fff;border-radius:18px;padding:20px;max-width:500px;margin:10px auto}
+.edit-modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
+.edit-modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
+.edit-modal input,.edit-modal select,.edit-modal textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none;font-family:inherit}
+.pencil-btn{background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px;border-radius:6px;color:#888;line-height:1}
+.pencil-btn:active{background:#e3f2fd}
+.comercial-selector{display:flex;gap:8px;margin-top:6px}
+.com-opt{flex:1;padding:10px;border-radius:10px;border:2px solid #ddd;text-align:center;cursor:pointer;font-size:13px;font-weight:600;background:#f9f9f9}
+.com-opt.sel-luis{background:#e3f2fd;border-color:#1976D2;color:#0d47a1}
+.com-opt.sel-cris{background:#e8f5e9;border-color:#43A047;color:#1b5e20}
+.com-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;white-space:nowrap}
+.com-tag.luis{background:#e3f2fd;color:#0d47a1}
+.com-tag.cris{background:#e8f5e9;color:#1b5e20}
+
 .btn-delete{background:#ff3b30;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
 .btn-delete:active{opacity:.8}
 .confirm-delete{background:#fff3f3;border:1.5px solid #ff3b30;border-radius:0 0 14px 14px;padding:10px 14px;display:none;border-top:none}
@@ -224,6 +240,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
     <input type="text" id="n-desc" placeholder="Cerramiento aluminio ral 9006...">
     <label>Nota inicial</label>
     <textarea id="n-nota" placeholder="Comentario inicial..."></textarea>
+    <label>Comercial</label>
+    <div class="comercial-selector" id="new-com-selector">
+      <div class="com-opt sel-luis" id="ncom-luis" onclick="selNuevoCom('luis')">👤 Solo Luis<br><small style="font-weight:400;font-size:11px">Comisión 4%</small></div>
+      <div class="com-opt" id="ncom-cris" onclick="selNuevoCom('cristian')">👥 Luis y Cristian<br><small style="font-weight:400;font-size:11px">Comisión 2%</small></div>
+    </div>
     <label>Estado</label>
     <div class="new-est-btns">
       <button class="est-btn am sel" id="neb-am" onclick="selNuevoEst('amarillo')">🟡 Nuevo</button>
@@ -243,74 +264,97 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   </div>
 </div>
 
+
+<div class="edit-modal-bg" id="edit-modal-bg">
+  <div class="edit-modal">
+    <h3>✏️ Editar cliente</h3>
+    <label>Nombre y apellidos</label>
+    <input type="text" id="e-nombre" placeholder="Nombre">
+    <label>Teléfono</label>
+    <input type="tel" id="e-tel" placeholder="600 000 000">
+    <label>Email</label>
+    <input type="email" id="e-email" placeholder="correo@email.com">
+    <label>Dirección</label>
+    <input type="text" id="e-dir" placeholder="Calle, número, ciudad">
+    <label>Comercial</label>
+    <div class="comercial-selector">
+      <div class="com-opt sel-luis" id="ecom-luis" onclick="selEditCom('luis')">👤 Solo Luis<br><small style="font-weight:400;font-size:11px">Comisión 4%</small></div>
+      <div class="com-opt" id="ecom-cris" onclick="selEditCom('cristian')">👥 Luis y Cristian<br><small style="font-weight:400;font-size:11px">Comisión 2%</small></div>
+    </div>
+    <div class="modal-btns" style="margin-top:16px">
+      <button class="btn-save" onclick="guardarEdicion()">Guardar cambios</button>
+      <button class="btn-cancel" onclick="cerrarEdicion()">Cancelar</button>
+    </div>
+  </div>
+</div>
 <script>
 var ORDEN=['amarillo','naranja','azul','verde','rojo'];
 var tabActual='todos', abierto=null, nuevoEst='amarillo', grabando=false, mediaRec=null, nextId=100;
 var ocultoResumen=false;
 
 var clientes=[
-  {id:1,nombre:"Ana García",tel:"622888782",email:"joseluisyana@live.com",dir:"C/ Salomón y la Reina de Saba nº 36 7ºA",estado:"amarillo",fechaFuturo:"",
+  {id:1,nombre:"Ana García",tel:"622888782",email:"joseluisyana@live.com",dir:"C/ Salomón y la Reina de Saba nº 36 7ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.123",imp:20318.20,desc:"Cerramiento ral 9006 · techo fijo + cortina cristal + grúa"},{ref:"2026.01.124",imp:5445.18,desc:"Avance terraza · techo fijo + fijo lateral"}],
    hist:[{f:"05/02/2026",t:"Presupuestos 123 y 124 enviados"}]},
-  {id:2,nombre:"Víctor",tel:"699097663",email:"vclares@hotmail.es",dir:"C/ Enriqueta Castejón nº 20 esc. 2 2ºA",estado:"amarillo",fechaFuturo:"",
+  {id:2,nombre:"Víctor",tel:"699097663",email:"vclares@hotmail.es",dir:"C/ Enriqueta Castejón nº 20 esc. 2 2ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.127",imp:9521.49,desc:"Cerramiento ral 7035/7040 · techo + cortina abatible DG28"}],
    hist:[{f:"05/02/2026",t:"Presupuesto 127 enviado"}]},
-  {id:3,nombre:"Ernesto Sebastián",tel:"620332731",email:"ernestosebastian23@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 1 5ºA",estado:"naranja",fechaFuturo:"",
+  {id:3,nombre:"Ernesto Sebastián",tel:"620332731",email:"ernestosebastian23@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 1 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.125",imp:23832.16,desc:"Cerramiento blanco · techo + DG20 + grúa"},{ref:"2026.01.126",imp:35341.68,desc:"Cerramiento blanco · pérgola mixta + DG20 + grúa"}],
    hist:[{f:"05/02/2026",t:"Opciones: económica (125) y premium (126)"}]},
-  {id:4,nombre:"Henry",tel:"635898623",email:"enriquealviarsilva@gmail.com",dir:"Av. Ribaforada nº 27, Ablitas",estado:"naranja",fechaFuturo:"",
+  {id:4,nombre:"Henry",tel:"635898623",email:"enriquealviarsilva@gmail.com",dir:"Av. Ribaforada nº 27, Ablitas",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.120",imp:17840.24,desc:"Techo móvil manual TM16 x2"},{ref:"2026.01.121",imp:25684.67,desc:"Techo móvil manual + motorizado DG26"}],
    hist:[{f:"05/02/2026",t:"Presupuestos 120 y 121 enviados"},{f:"13/04/2026",t:"No responde"}]},
-  {id:5,nombre:"Noelia",tel:"686954241",email:"noeliabellostasmuguerza@gmail.com",dir:"C/ Salomón y la Reina de Saba nº 20 5ºA",estado:"amarillo",fechaFuturo:"",
+  {id:5,nombre:"Noelia",tel:"686954241",email:"noeliabellostasmuguerza@gmail.com",dir:"C/ Salomón y la Reina de Saba nº 20 5ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.142",imp:28508.81,desc:"Cerramiento ral 9006 · techo + cortinas DG20 + DG24 + grúa"}],
    hist:[{f:"14/02/2026",t:"Presupuesto 142 enviado"}]},
-  {id:6,nombre:"Julio y Belén",tel:"654712022",email:"juliov.g.luintra@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 7 5ºA",estado:"naranja",fechaFuturo:"",
+  {id:6,nombre:"Julio y Belén",tel:"654712022",email:"juliov.g.luintra@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 7 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.141",imp:23173.92,desc:"Cerramiento blanco · techo 6840x7000 + DG20 + grúa"}],
    hist:[{f:"14/02/2026",t:"Presupuesto 141 enviado"},{f:"13/04/2026",t:"Llamar miércoles a las 17h"}]},
-  {id:7,nombre:"Marc Cleries",tel:"651351119",email:"marc.cleries4@gmail.com",dir:"C/ Picasso nº 4 6º 5ª, Lérida",estado:"rojo",fechaFuturo:"",
+  {id:7,nombre:"Marc Cleries",tel:"651351119",email:"marc.cleries4@gmail.com",dir:"C/ Picasso nº 4 6º 5ª, Lérida",estado:"rojo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.138",imp:22057.00,desc:"Cerramiento plata · pérgola bioclimática DG210 + DG20"}],
    hist:[{f:"14/02/2026",t:"Presupuesto 138 enviado"},{f:"13/04/2026",t:"No contrata"}]},
-  {id:8,nombre:"Laura",tel:"605687575",email:"lauramartintarifa8@gmail.com",dir:"C/ Pierrette Gargallo nº 8 8ºA",estado:"amarillo",fechaFuturo:"",
+  {id:8,nombre:"Laura",tel:"605687575",email:"lauramartintarifa8@gmail.com",dir:"C/ Pierrette Gargallo nº 8 8ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.135",imp:6480.76,desc:"Cortina abatible DG28 ral 7016 forma L"},{ref:"2026.01.136",imp:5498.24,desc:"Cortina abatible DG24 ral 7016 forma L (económica)"}],
    hist:[{f:"14/02/2026",t:"Opciones DG28 (135) y DG24 económica (136)"}]},
-  {id:9,nombre:"Eduardo",tel:"647780750",email:"eduardo.sicilia@facigroup.com",dir:"Av. Aragón nº 17, Urb. El Condado",estado:"amarillo",fechaFuturo:"",
+  {id:9,nombre:"Eduardo",tel:"647780750",email:"eduardo.sicilia@facigroup.com",dir:"Av. Aragón nº 17, Urb. El Condado",estado:"amarillo",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"2026.01.249",imp:55886.27,desc:"Pérgola bioclimática DG210 ral 7016 · 3 módulos + DG20 x4"}],
    hist:[{f:"23/03/2026",t:"Presupuesto 249 enviado. Obra grande"}]},
-  {id:10,nombre:"Antonio",tel:"",email:"",dir:"Oliver, Zaragoza",estado:"verde",fechaFuturo:"",
+  {id:10,nombre:"Antonio",tel:"",email:"",dir:"Oliver, Zaragoza",estado:"verde",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"13/04/2026",t:"Contrata con financiación"}]},
-  {id:11,nombre:"Clara",tel:"",email:"",dir:"Tenor Fleta, Zaragoza",estado:"naranja",fechaFuturo:"",
+  {id:11,nombre:"Clara",tel:"",email:"",dir:"Tenor Fleta, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"10/03/2026",t:"Llamar el viernes. Mirando todo"}]},
-  {id:12,nombre:"Jaime",tel:"",email:"",dir:"Luesia",estado:"naranja",fechaFuturo:"",
+  {id:12,nombre:"Jaime",tel:"",email:"",dir:"Luesia",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"13/04/2026",t:"Llamar miércoles. Se les va de presupuesto"}]},
-  {id:13,nombre:"Víctor Sunadiel",tel:"",email:"",dir:"Lérida",estado:"naranja",fechaFuturo:"",
+  {id:13,nombre:"Víctor Sunadiel",tel:"",email:"",dir:"Lérida",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"132",imp:10442.00,desc:"Pendiente cierre visita en tienda"}],
    hist:[{f:"13/04/2026",t:"Llamar para cerrar visita en tienda"}]},
-  {id:14,nombre:"Victor Sancho",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",
+  {id:14,nombre:"Victor Sancho",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"179/180",imp:36569.83,desc:"Dos opciones enviadas"}],
    hist:[{f:"13/04/2026",t:"Parece interesado pero no responde"}]},
-  {id:15,nombre:"Noé",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",
+  {id:15,nombre:"Noé",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"178",imp:16723.41,desc:"No había mirado el presupuesto"}],
    hist:[{f:"13/04/2026",t:"No cogió el teléfono. Llamar miércoles 10:30h"}]},
-  {id:16,nombre:"Ana Cabanillas",tel:"",email:"",dir:"Cadreita",estado:"naranja",fechaFuturo:"",
+  {id:16,nombre:"Ana Cabanillas",tel:"",email:"",dir:"Cadreita",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"177",imp:9889.33,desc:"Lo ven muy caro a priori"}],
    hist:[{f:"13/04/2026",t:"Mandar 2º presupuesto"}]},
-  {id:17,nombre:"Teresa",tel:"",email:"",dir:"Movera, Zaragoza",estado:"naranja",fechaFuturo:"",
+  {id:17,nombre:"Teresa",tel:"",email:"",dir:"Movera, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"158/159",imp:44490.49,desc:"Esperando presupuesto de albañil"}],
    hist:[{f:"13/04/2026",t:"Llamar viernes. Esperando presu de albañil"}]},
-  {id:18,nombre:"Ismael Callejas",tel:"",email:"",dir:"Calle Benasque, Zaragoza",estado:"naranja",fechaFuturo:"",
+  {id:18,nombre:"Ismael Callejas",tel:"",email:"",dir:"Calle Benasque, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"187",imp:21355.29,desc:"Consultar si les hago seguimiento"}],
    hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
-  {id:19,nombre:"Mariano Gil",tel:"",email:"",dir:"Calle Lagos de Coronas",estado:"naranja",fechaFuturo:"",
+  {id:19,nombre:"Mariano Gil",tel:"",email:"",dir:"Calle Lagos de Coronas",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"182",imp:5244.14,desc:"Consultar si les hago seguimiento"}],
    hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
-  {id:20,nombre:"Andrea",tel:"",email:"",dir:"Boltaña",estado:"naranja",fechaFuturo:"",
+  {id:20,nombre:"Andrea",tel:"",email:"",dir:"Boltaña",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[{ref:"118",imp:10286.21,desc:"No responde"}],
    hist:[{f:"13/04/2026",t:"No responde"}]},
-  {id:21,nombre:"Eva",tel:"",email:"",dir:"Ismael Hipólito, Zaragoza",estado:"naranja",fechaFuturo:"",
+  {id:21,nombre:"Eva",tel:"",email:"",dir:"Ismael Hipólito, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"13/04/2026",t:"No responde"}]},
-  {id:22,nombre:"Fernando",tel:"",email:"",dir:"Torre Barajas",estado:"rojo",fechaFuturo:"",
+  {id:22,nombre:"Fernando",tel:"",email:"",dir:"Torre Barajas",estado:"rojo",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"13/04/2026",t:"No contrata. Le parece muy caro"}]},
-  {id:23,nombre:"Fernando",tel:"",email:"",dir:"Montmesa",estado:"rojo",fechaFuturo:"",
+  {id:23,nombre:"Fernando",tel:"",email:"",dir:"Montmesa",estado:"rojo",fechaFuturo:"",comercial:"luis",
    pres:[],hist:[{f:"13/04/2026",t:"No contrata por ahora"}]}
 ];
 
@@ -350,8 +394,10 @@ function abrirC(id){abierto=id;tabActual='todos';document.querySelectorAll('.tab
 
 function updateStats(){
   var contr=clientes.filter(function(c){return c.estado==='verde'});
-  var tl=contr.reduce(function(s,c){return s+totalP(c)*0.04},0);
-  var tc=contr.reduce(function(s,c){return s+totalP(c)*0.02},0);
+  var contrLuis=contr.filter(function(c){return c.comercial!=='cristian'});
+  var contrCris=contr.filter(function(c){return c.comercial==='cristian'});
+  var tl=contrLuis.reduce(function(s,c){return s+totalP(c)*0.04},0);
+  var tc=contrCris.reduce(function(s,c){return s+totalP(c)*0.02},0);
   if(ocultoResumen){
     document.getElementById('com-luis').textContent='••••';
     document.getElementById('com-cris').textContent='••••';
@@ -362,8 +408,8 @@ function updateStats(){
     document.getElementById('com-cris').textContent=fmtE(tc);
     var bll=document.getElementById('bl-luis');
     var blc=document.getElementById('bl-cris');
-    bll.innerHTML=contr.length?contr.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.04):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos aún</div>';
-    blc.innerHTML=contr.length?contr.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.02):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos aún</div>';
+    bll.innerHTML=contrLuis.length?contrLuis.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.04):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos Solo Luis</div>';
+    blc.innerHTML=contrCris.length?contrCris.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.02):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos con Cristian</div>';
   }
   document.getElementById('s-am').textContent=clientes.filter(function(c){return c.estado==='amarillo'}).length;
   document.getElementById('s-na').textContent=clientes.filter(function(c){return c.estado==='naranja'}).length;
@@ -378,14 +424,16 @@ function renderResumen(){
   var tC=clientes.filter(function(c){return c.estado==='verde'}).reduce(function(s,c){return s+totalP(c)},0);
   var box=document.getElementById('resumen-box');
   if(tA===0&&tC===0){box.innerHTML='';return}
+  var tLuis=clientes.filter(function(c){return c.estado==='verde'&&c.comercial!=='cristian'}).reduce(function(s,c){return s+totalP(c)},0);
+  var tCris=clientes.filter(function(c){return c.estado==='verde'&&c.comercial==='cristian'}).reduce(function(s,c){return s+totalP(c)},0);
   var ojo=ocultoResumen?'👁️‍🗨️':'👁️';
   box.innerHTML='<div class="resumen">'+
     '<div class="resumen-header"><span class="resumen-titulo">Resumen financiero</span><button class="ojo-btn" onclick="toggleOjo()" title="Mostrar/ocultar">'+ojo+'</button></div>'+
     '<div class="resumen-grid">'+
       '<div class="res-item"><div class="res-label">Pendiente</div>'+ocultar([fmtE(tA),'#e65100'])+'</div>'+
       '<div class="res-item"><div class="res-label">Cerrado</div>'+ocultar([fmtE(tC),'#2e7d32'])+'</div>'+
-      '<div class="res-item"><div class="res-label">Luis ganado</div>'+ocultar([fmtE(tC*0.04),'#1976D2'])+'</div>'+
-      '<div class="res-item"><div class="res-label">+ Cristian</div>'+ocultar([fmtE(tC*0.02),'#7b1fa2'])+'</div>'+
+      '<div class="res-item"><div class="res-label">Solo Luis (4%)</div>'+ocultar([fmtE(tLuis*0.04),'#1976D2'])+'</div>'+
+      '<div class="res-item"><div class="res-label">Luis+Cristian (2%)</div>'+ocultar([fmtE(tCris*0.02),'#7b1fa2'])+'</div>'+
     '</div></div>';
 }
 
@@ -451,8 +499,8 @@ function render(){
         '<div class="av '+cl+'">'+ini(c.nombre)+'</div>'+
         '<div class="card-info"><div class="card-name">'+c.nombre+'</div><div class="card-sub">'+sub+'</div></div>'+
         '<div class="card-right">'+
-          '<span class="badge '+cl+'">'+badgeL(c.estado)+'</span>'+caHtml+
-          '<button class="trash-btn" onclick="event.stopPropagation();mostrarConfirm('+c.id+')" title="Eliminar cliente">🗑️</button>'+
+          '<span class="badge '+cl+'">'+badgeL(c.estado)+'</span>'+caHtml+'<span class="com-tag '+(c.comercial==='cristian'?'cris':'luis')+'">'+( c.comercial==='cristian'?'Luis+Cristian':'Solo Luis')+'</span>'+
+          '<div style="display:flex;gap:4px;margin-top:2px">'+'<button class="pencil-btn" onclick="event.stopPropagation();abrirEdicion('+c.id+')" title="Editar cliente">✏️</button>'+'<button class="trash-btn" onclick="event.stopPropagation();mostrarConfirm('+c.id+')" title="Eliminar cliente">🗑️</button>'+'</div>'+
         '</div>'+
       '</div>'+
       '<div class="confirm-delete" id="confirm-'+c.id+'">'+
@@ -554,8 +602,8 @@ function guardarNuevo(){
   if(!nombre){alert('El nombre es obligatorio');return}
   var imp=parseFloat((document.getElementById('n-imp').value||'').replace(',','.'))||0;
   var ref=(document.getElementById('n-ref').value||'').trim();
-  var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';
-  var c={id:nextId++,nombre:nombre,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,pres:[],hist:[]};
+  var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';var comVal=nuevoComercial||'luis';
+  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,pres:[],hist:[]};
   if(ref||imp>0) c.pres.push({ref:ref||'—',imp:imp,desc:(document.getElementById('n-desc').value||'').trim()||'Presupuesto'});
   var nota=(document.getElementById('n-nota').value||'').trim();
   c.hist.push({f:now(),t:nota||'Cliente añadido'});
@@ -586,6 +634,43 @@ function toggleMic(id){
 }
 
 
+
+var nuevoComercial='luis';
+function selNuevoCom(v){
+  nuevoComercial=v;
+  document.getElementById('ncom-luis').className='com-opt'+(v==='luis'?' sel-luis':'');
+  document.getElementById('ncom-cris').className='com-opt'+(v==='cristian'?' sel-cris':'');
+}
+
+var editandoId=null;
+function abrirEdicion(id){
+  var c=clientes.find(function(x){return x.id===id});
+  if(!c)return;
+  editandoId=id;
+  document.getElementById('e-nombre').value=c.nombre||'';
+  document.getElementById('e-tel').value=c.tel||'';
+  document.getElementById('e-email').value=c.email||'';
+  document.getElementById('e-dir').value=c.dir||'';
+  document.getElementById('ecom-luis').className='com-opt'+(c.comercial!=='cristian'?' sel-luis':'');
+  document.getElementById('ecom-cris').className='com-opt'+(c.comercial==='cristian'?' sel-cris':'');
+  document.getElementById('edit-modal-bg').classList.add('open');
+}
+function cerrarEdicion(){document.getElementById('edit-modal-bg').classList.remove('open');editandoId=null}
+function selEditCom(v){
+  document.getElementById('ecom-luis').className='com-opt'+(v==='luis'?' sel-luis':'');
+  document.getElementById('ecom-cris').className='com-opt'+(v==='cristian'?' sel-cris':'');
+}
+function guardarEdicion(){
+  var c=clientes.find(function(x){return x.id===editandoId});
+  if(!c)return;
+  c.nombre=(document.getElementById('e-nombre').value||'').trim()||c.nombre;
+  c.tel=(document.getElementById('e-tel').value||'').trim();
+  c.email=(document.getElementById('e-email').value||'').trim();
+  c.dir=(document.getElementById('e-dir').value||'').trim();
+  c.comercial=document.getElementById('ecom-cris').classList.contains('sel-cris')?'cristian':'luis';
+  c.hist.push({f:now(),t:'Datos editados'});
+  save();cerrarEdicion();abierto=editandoId;render();
+}
 function mostrarConfirm(id){
   var el=document.getElementById('confirm-'+id);
   if(el)el.classList.add('show');
@@ -602,6 +687,7 @@ function eliminarCliente(id){
 }
 
 document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
+document.getElementById('edit-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarEdicion()});
 render();
 </script>
 </body>
