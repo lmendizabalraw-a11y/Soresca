@@ -133,6 +133,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .fecha-futuro-modal.show{display:block}
 .fecha-futuro-modal label{color:#1565c0}
 .fecha-futuro-modal input{background:#e3f2fd;border-color:#90caf9}
+.fotos-section{margin:8px 0}
+.fotos-title{font-size:11px;font-weight:700;color:#aaa;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.3px}
+.fotos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.foto-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid #eee;cursor:pointer}
+.foto-add-btn{width:100%;aspect-ratio:1;border:2px dashed #ddd;border-radius:8px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:#bbb;gap:4px}
+.foto-add-btn span{font-size:10px;color:#bbb;font-weight:600}
+.foto-add-btn:active{background:#f0f0f0}
+.foto-input{display:none}
+.foto-viewer-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:400;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.foto-viewer-bg.open{display:flex}
+.foto-viewer-img{max-width:95vw;max-height:80vh;border-radius:10px;object-fit:contain}
+.foto-viewer-btns{display:flex;gap:12px}
+.foto-viewer-close{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
+.foto-viewer-delete{background:#ff3b30;border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
+
 .edit-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:300;padding:16px;overflow-y:auto}
 .edit-modal-bg.open{display:block}
 .edit-modal{background:#fff;border-radius:18px;padding:20px;max-width:500px;margin:10px auto}
@@ -264,6 +279,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   </div>
 </div>
 
+
+
+<div class="foto-viewer-bg" id="foto-viewer-bg">
+  <img class="foto-viewer-img" id="foto-viewer-img" src="">
+  <div class="foto-viewer-btns">
+    <button class="foto-viewer-delete" onclick="eliminarFotoVista()">🗑️ Eliminar</button>
+    <button class="foto-viewer-close" onclick="cerrarFotoViewer()">Cerrar</button>
+  </div>
+</div>
 
 <div class="edit-modal-bg" id="edit-modal-bg">
   <div class="edit-modal">
@@ -522,6 +546,18 @@ function render(){
           tempHtml+
           '<div class="pres-title">Presupuestos (editables)</div>'+presHtml+
           (total>0?'<div class="total-box" id="total-'+c.id+'"><div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'')+
+          '<div class="fotos-section">'+
+          '<div class="fotos-title">Fotos del cliente</div>'+
+          '<div class="fotos-grid" id="fotos-grid-'+c.id+'">'+
+          (c.fotos&&c.fotos.length?c.fotos.map(function(f,fi){
+            return '<img class="foto-thumb" src="'+f+'" onclick="verFoto('+c.id+','+fi+')">';
+          }).join(''):'')+
+          '<label class="foto-add-btn" title="Añadir foto">'+
+            '<input class="foto-input" type="file" accept="image/*" capture="environment" onchange="añadirFoto('+c.id+',event)">'+
+            '📷<span>Añadir foto</span>'+
+          '</label>'+
+          '</div>'+
+        '</div>'+
           '<div class="hist-title">Historial de llamadas y notas</div>'+
           '<div class="hist-list">'+(histHtml||'<div style="font-size:12px;color:#bbb">Sin registros aún</div>')+'</div>'+
           '<div class="nota-area">'+
@@ -603,7 +639,7 @@ function guardarNuevo(){
   var imp=parseFloat((document.getElementById('n-imp').value||'').replace(',','.'))||0;
   var ref=(document.getElementById('n-ref').value||'').trim();
   var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';var comVal=nuevoComercial||'luis';
-  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,pres:[],hist:[]};
+  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,fotos:[],pres:[],hist:[]};
   if(ref||imp>0) c.pres.push({ref:ref||'—',imp:imp,desc:(document.getElementById('n-desc').value||'').trim()||'Presupuesto'});
   var nota=(document.getElementById('n-nota').value||'').trim();
   c.hist.push({f:now(),t:nota||'Cliente añadido'});
@@ -634,6 +670,50 @@ function toggleMic(id){
 }
 
 
+
+
+var fotoViewerCid=null, fotoViewerIdx=null;
+
+function añadirFoto(cid, event){
+  var file=event.target.files[0];
+  if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var c=clientes.find(function(x){return x.id===cid});
+    if(!c) return;
+    if(!c.fotos) c.fotos=[];
+    c.fotos.push(e.target.result);
+    save();
+    abierto=cid;
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
+function verFoto(cid, idx){
+  var c=clientes.find(function(x){return x.id===cid});
+  if(!c||!c.fotos||!c.fotos[idx]) return;
+  fotoViewerCid=cid; fotoViewerIdx=idx;
+  document.getElementById('foto-viewer-img').src=c.fotos[idx];
+  document.getElementById('foto-viewer-bg').classList.add('open');
+}
+
+function cerrarFotoViewer(){
+  document.getElementById('foto-viewer-bg').classList.remove('open');
+  document.getElementById('foto-viewer-img').src='';
+  fotoViewerCid=null; fotoViewerIdx=null;
+}
+
+function eliminarFotoVista(){
+  if(fotoViewerCid===null||fotoViewerIdx===null) return;
+  var c=clientes.find(function(x){return x.id===fotoViewerCid});
+  if(!c||!c.fotos) return;
+  c.fotos.splice(fotoViewerIdx,1);
+  save();
+  cerrarFotoViewer();
+  abierto=fotoViewerCid;
+  render();
+}
 
 var nuevoComercial='luis';
 function selNuevoCom(v){
@@ -688,6 +768,7 @@ function eliminarCliente(id){
 
 document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
 document.getElementById('edit-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarEdicion()});
+document.getElementById('foto-viewer-bg').addEventListener('click',function(e){if(e.target===this)cerrarFotoViewer()});
 render();
 </script>
 </body>
