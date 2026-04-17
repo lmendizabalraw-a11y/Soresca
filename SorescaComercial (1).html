@@ -147,6 +147,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .foto-viewer-btns{display:flex;gap:12px}
 .foto-viewer-close{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
 .foto-viewer-delete{background:#ff3b30;border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
+.docs-grid{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.doc-item{background:#f9f9f9;border:1px solid #eee;border-radius:8px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.doc-name{font-size:12px;font-weight:600;color:#1a1a1a;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-size{font-size:10px;color:#aaa;white-space:nowrap}
+.doc-btns{display:flex;gap:6px}
+.doc-open-btn{background:#e3f2fd;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;color:#0d47a1;cursor:pointer}
+.doc-del-btn{background:#ffebee;border:none;border-radius:6px;padding:5px 8px;font-size:11px;color:#b71c1c;cursor:pointer}
+.media-add-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.media-btn{flex:1;min-width:120px;padding:10px;border:2px dashed #ddd;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600;color:#888}
+.media-btn:active{background:#f0f0f0}
+.media-btn-cam{border-color:#4CAF50;color:#2e7d32;background:#f1f8e9}
+.media-btn-gal{border-color:#2196F3;color:#0d47a1;background:#e3f2fd}
+.media-btn-pdf{border-color:#FF5722;color:#bf360c;background:#fbe9e7}
+
 
 .edit-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:300;padding:16px;overflow-y:auto}
 .edit-modal-bg.open{display:block}
@@ -547,15 +561,30 @@ function render(){
           '<div class="pres-title">Presupuestos (editables)</div>'+presHtml+
           (total>0?'<div class="total-box" id="total-'+c.id+'"><div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'')+
           '<div class="fotos-section">'+
-          '<div class="fotos-title">Fotos del cliente</div>'+
+          '<div class="fotos-title">📷 Fotos y documentos</div>'+
+          '<div class="media-add-row">'+
+            '<label class="media-btn media-btn-cam">'+
+              '<input class="foto-input" type="file" accept="image/*" capture="environment" onchange="añadirFoto('+c.id+',event)">'+
+              '📷 Cámara'+
+            '</label>'+
+            '<label class="media-btn media-btn-gal">'+
+              '<input class="foto-input" type="file" accept="image/*" onchange="añadirFoto('+c.id+',event)">'+
+              '🖼️ Galería'+
+            '</label>'+
+            '<label class="media-btn media-btn-pdf">'+
+              '<input class="foto-input" type="file" accept=".pdf,application/pdf" onchange="añadirPDF('+c.id+',event)">'+
+              '📄 PDF'+
+            '</label>'+
+          '</div>'+
           '<div class="fotos-grid" id="fotos-grid-'+c.id+'">'+
           (c.fotos&&c.fotos.length?c.fotos.map(function(f,fi){
             return '<img class="foto-thumb" src="'+f+'" onclick="verFoto('+c.id+','+fi+')">';
           }).join(''):'')+
-          '<label class="foto-add-btn" title="Añadir foto">'+
-            '<input class="foto-input" type="file" accept="image/*" capture="environment" onchange="añadirFoto('+c.id+',event)">'+
-            '📷<span>Añadir foto</span>'+
-          '</label>'+
+          '</div>'+
+          '<div class="docs-grid" id="docs-grid-'+c.id+'">'+
+          (c.docs&&c.docs.length?c.docs.map(function(d,di){
+            return '<div class="doc-item"><span style="font-size:16px">📄</span><span class="doc-name">'+d.name+'</span><span class="doc-size">'+d.size+'</span><div class="doc-btns"><button class="doc-open-btn" onclick="abrirPDF('+c.id+','+di+')">Ver</button><button class="doc-del-btn" onclick="eliminarPDF('+c.id+','+di+')">🗑️</button></div></div>';
+          }).join(''):'')+
           '</div>'+
         '</div>'+
           '<div class="hist-title">Historial de llamadas y notas</div>'+
@@ -639,7 +668,7 @@ function guardarNuevo(){
   var imp=parseFloat((document.getElementById('n-imp').value||'').replace(',','.'))||0;
   var ref=(document.getElementById('n-ref').value||'').trim();
   var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';var comVal=nuevoComercial||'luis';
-  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,fotos:[],pres:[],hist:[]};
+  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,fotos:[],docs:[],pres:[],hist:[]};
   if(ref||imp>0) c.pres.push({ref:ref||'—',imp:imp,desc:(document.getElementById('n-desc').value||'').trim()||'Presupuesto'});
   var nota=(document.getElementById('n-nota').value||'').trim();
   c.hist.push({f:now(),t:nota||'Cliente añadido'});
@@ -673,6 +702,43 @@ function toggleMic(id){
 
 
 var fotoViewerCid=null, fotoViewerIdx=null;
+
+
+function añadirPDF(cid, event){
+  var file=event.target.files[0];
+  if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var c=clientes.find(function(x){return x.id===cid});
+    if(!c) return;
+    if(!c.docs) c.docs=[];
+    var sizeKB=Math.round(file.size/1024);
+    var sizeStr=sizeKB>1024?(sizeKB/1024).toFixed(1)+' MB':sizeKB+' KB';
+    c.docs.push({name:file.name, size:sizeStr, data:e.target.result});
+    save();
+    abierto=cid;
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
+function abrirPDF(cid, idx){
+  var c=clientes.find(function(x){return x.id===cid});
+  if(!c||!c.docs||!c.docs[idx]) return;
+  var link=document.createElement('a');
+  link.href=c.docs[idx].data;
+  link.download=c.docs[idx].name;
+  link.click();
+}
+
+function eliminarPDF(cid, idx){
+  var c=clientes.find(function(x){return x.id===cid});
+  if(!c||!c.docs) return;
+  c.docs.splice(idx,1);
+  save();
+  abierto=cid;
+  render();
+}
 
 function añadirFoto(cid, event){
   var file=event.target.files[0];
