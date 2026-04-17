@@ -160,6 +160,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .media-btn-cam{border-color:#4CAF50;color:#2e7d32;background:#f1f8e9}
 .media-btn-gal{border-color:#2196F3;color:#0d47a1;background:#e3f2fd}
 .media-btn-pdf{border-color:#FF5722;color:#bf360c;background:#fbe9e7}
+.pres-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:400;padding:16px;overflow-y:auto}
+.pres-modal-bg.open{display:block}
+.pres-modal{background:#fff;border-radius:18px;padding:20px;max-width:480px;margin:20px auto}
+.pres-modal h3{font-size:16px;font-weight:800;margin-bottom:4px}
+.pres-modal .pdf-tag{font-size:11px;color:#bf360c;background:#fbe9e7;border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:14px;font-weight:600}
+.pres-modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
+.pres-modal input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none}
+
 
 
 .edit-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:300;padding:16px;overflow-y:auto}
@@ -300,6 +308,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   <div class="foto-viewer-btns">
     <button class="foto-viewer-delete" onclick="eliminarFotoVista()">🗑️ Eliminar</button>
     <button class="foto-viewer-close" onclick="cerrarFotoViewer()">Cerrar</button>
+  </div>
+</div>
+
+
+<div class="pres-modal-bg" id="pres-modal-bg">
+  <div class="pres-modal">
+    <h3>📄 Nuevo presupuesto desde PDF</h3>
+    <div class="pdf-tag" id="pm-filename"></div>
+    <input type="hidden" id="pm-pdfdata">
+    <label>Referencia del presupuesto</label>
+    <input type="text" id="pm-ref" placeholder="Ej: 2026.01.123">
+    <label>Importe total (€)</label>
+    <input type="number" id="pm-imp" placeholder="Ej: 15000">
+    <label>Descripción</label>
+    <input type="text" id="pm-desc" placeholder="Ej: Cerramiento ral 9006 · techo + cortina...">
+    <div class="modal-btns" style="margin-top:16px">
+      <button class="btn-save" onclick="guardarPresupuestoModal()">Añadir presupuesto</button>
+      <button class="btn-cancel" onclick="cerrarModalPresupuesto()">Cancelar</button>
+    </div>
   </div>
 </div>
 
@@ -516,10 +543,14 @@ function render(){
     if(dias!==null){var caC=dias<=0?'urgente':dias<=7?'pronto':'';caHtml='<div class="cuenta-atras '+caC+'">'+(dias<=0?'¡Hoy!':dias+' días')+'</div>'}
     var presHtml=c.pres.length?c.pres.map(function(p,i){
       return '<div class="pres-item">'+
-        '<div class="pres-top"><div><div class="pres-ref">Ref. '+p.ref+'</div><div class="pres-desc">'+p.desc+'</div></div></div>'+
+        '<div class="pres-top">'+
+          '<div><div class="pres-ref">Ref. '+p.ref+'</div><div class="pres-desc">'+p.desc+'</div></div>'+
+          (p.pdf?'<button class="doc-open-btn" onclick="abrirPDFPresupuesto('+c.id+','+i+')">📄 Ver PDF</button>':'')+
+        '</div>'+
         '<div class="pres-edit-row">'+
           '<label>Importe €</label>'+
           '<input class="pres-imp-input" type="number" value="'+((+p.imp)||0)+'" onchange="actualizarImporte('+c.id+','+i+',this.value)" oninput="actualizarImporte('+c.id+','+i+',this.value)" placeholder="0">'+
+          '<button class="doc-del-btn" onclick="eliminarPresupuesto('+c.id+','+i+')" title="Eliminar presupuesto">🗑️</button>'+
         '</div>'+
         '<div id="com-p-'+c.id+'-'+i+'" class="pres-com-badge" style="font-size:11px;color:#888;margin-top:5px">Luis: '+fmtE((+p.imp||0)*0.04)+' · +Cristian: '+fmtE((+p.imp||0)*0.02)+'</div>'+
       '</div>';
@@ -558,10 +589,14 @@ function render(){
             '<div class="det-field" style="grid-column:1/-1"><div class="lbl">Dirección</div><div class="val">'+c.dir+'</div></div>'+
           '</div>'+
           tempHtml+
-          '<div class="pres-title">Presupuestos (editables)</div>'+presHtml+
+          '<div class="pres-title">Presupuestos</div>'+presHtml+
+          '<label class="media-btn media-btn-pdf" style="margin-bottom:8px;border-radius:10px;padding:10px 12px;display:flex;gap:6px;align-items:center;width:100%">'+
+            '<input class="foto-input" type="file" accept=".pdf,application/pdf" onchange="leerPDFPresupuesto('+c.id+',event)">'+
+            '📄 Añadir presupuesto desde PDF'+
+          '</label>'+
           (total>0?'<div class="total-box" id="total-'+c.id+'"><div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'')+
           '<div class="fotos-section">'+
-          '<div class="fotos-title">📷 Fotos y documentos</div>'+
+          '<div class="fotos-title">📷 Fotos</div>'+
           '<div class="media-add-row">'+
             '<label class="media-btn media-btn-cam">'+
               '<input class="foto-input" type="file" accept="image/*" capture="environment" onchange="añadirFoto('+c.id+',event)">'+
@@ -571,23 +606,14 @@ function render(){
               '<input class="foto-input" type="file" accept="image/*" onchange="añadirFoto('+c.id+',event)">'+
               '🖼️ Galería'+
             '</label>'+
-            '<label class="media-btn media-btn-pdf">'+
-              '<input class="foto-input" type="file" accept=".pdf,application/pdf" onchange="añadirPDF('+c.id+',event)">'+
-              '📄 PDF'+
-            '</label>'+
           '</div>'+
-          '<div class="fotos-grid" id="fotos-grid-'+c.id+'">'+
-          (c.fotos&&c.fotos.length?c.fotos.map(function(f,fi){
-            return '<img class="foto-thumb" src="'+f+'" onclick="verFoto('+c.id+','+fi+')">';
-          }).join(''):'')+
-          '</div>'+
-          '<div class="docs-grid" id="docs-grid-'+c.id+'">'+
-          (c.docs&&c.docs.length?c.docs.map(function(d,di){
-            return '<div class="doc-item"><span style="font-size:16px">📄</span><span class="doc-name">'+d.name+'</span><span class="doc-size">'+d.size+'</span><div class="doc-btns"><button class="doc-open-btn" onclick="abrirPDF('+c.id+','+di+')">Ver</button><button class="doc-del-btn" onclick="eliminarPDF('+c.id+','+di+')">🗑️</button></div></div>';
+          '<div class="fotos-grid">'+
+          (c.fotos&&c.fotos.length?c.fotos.map(function(foto,fi){
+            return '<img class="foto-thumb" src="'+foto+'" onclick="verFoto('+c.id+','+fi+')">';
           }).join(''):'')+
           '</div>'+
         '</div>'+
-          '<div class="hist-title">Historial de llamadas y notas</div>'+
+'<div class="hist-title">Historial de llamadas y notas</div>'+
           '<div class="hist-list">'+(histHtml||'<div style="font-size:12px;color:#bbb">Sin registros aún</div>')+'</div>'+
           '<div class="nota-area">'+
             '<div class="nota-label">Añadir nota · cambiar estado</div>'+
@@ -704,39 +730,65 @@ function toggleMic(id){
 var fotoViewerCid=null, fotoViewerIdx=null;
 
 
-function añadirPDF(cid, event){
+
+function abrirPDFPresupuesto(cid, idx){
+  var c=clientes.find(function(x){return x.id===cid});
+  if(!c||!c.pres||!c.pres[idx]||!c.pres[idx].pdf) return;
+  var link=document.createElement('a');
+  link.href=c.pres[idx].pdf;
+  link.download=c.pres[idx].pdfname||'presupuesto.pdf';
+  link.click();
+}
+function eliminarPresupuesto(cid, idx){
+  var c=clientes.find(function(x){return x.id===cid});
+  if(!c||!c.pres) return;
+  if(!confirm('¿Eliminar este presupuesto?')) return;
+  c.pres.splice(idx,1);
+  save(); abierto=cid; render();
+}
+function leerPDFPresupuesto(cid, event){
   var file=event.target.files[0];
   if(!file) return;
   var reader=new FileReader();
   reader.onload=function(e){
     var c=clientes.find(function(x){return x.id===cid});
     if(!c) return;
-    if(!c.docs) c.docs=[];
-    var sizeKB=Math.round(file.size/1024);
-    var sizeStr=sizeKB>1024?(sizeKB/1024).toFixed(1)+' MB':sizeKB+' KB';
-    c.docs.push({name:file.name, size:sizeStr, data:e.target.result});
-    save();
-    abierto=cid;
-    render();
+    // Extract reference from filename e.g. "2026.01.123.pdf" -> "2026.01.123"
+    var ref=file.name.replace(/\.pdf$/i,'');
+    // Show modal to confirm/edit presupuesto data before adding
+    abrirModalPresupuesto(cid, ref, file.name, e.target.result);
   };
   reader.readAsDataURL(file);
 }
 
-function abrirPDF(cid, idx){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.docs||!c.docs[idx]) return;
-  var link=document.createElement('a');
-  link.href=c.docs[idx].data;
-  link.download=c.docs[idx].name;
-  link.click();
+var presModalCid=null;
+function abrirModalPresupuesto(cid, ref, filename, pdfData){
+  presModalCid=cid;
+  document.getElementById('pm-ref').value=ref||'';
+  document.getElementById('pm-imp').value='';
+  document.getElementById('pm-desc').value='';
+  document.getElementById('pm-filename').textContent=filename;
+  document.getElementById('pm-pdfdata').value=pdfData||'';
+  document.getElementById('pres-modal-bg').classList.add('open');
 }
-
-function eliminarPDF(cid, idx){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.docs) return;
-  c.docs.splice(idx,1);
+function cerrarModalPresupuesto(){
+  document.getElementById('pres-modal-bg').classList.remove('open');
+  presModalCid=null;
+}
+function guardarPresupuestoModal(){
+  var c=clientes.find(function(x){return x.id===presModalCid});
+  if(!c) return;
+  var ref=(document.getElementById('pm-ref').value||'').trim()||'—';
+  var imp=parseFloat((document.getElementById('pm-imp').value||'').replace(',','.'))||0;
+  var desc=(document.getElementById('pm-desc').value||'').trim()||'Presupuesto PDF';
+  var pdfData=document.getElementById('pm-pdfdata').value;
+  var filename=document.getElementById('pm-filename').textContent;
+  if(!c.pres) c.pres=[];
+  c.pres.push({ref:ref, imp:imp, desc:desc, pdf:pdfData, pdfname:filename});
+  c.hist.push({f:now(), t:'Presupuesto PDF añadido: ref. '+ref+(imp>0?' · '+fmtE(imp):'')});
   save();
-  abierto=cid;
+  cerrarModalPresupuesto();
+  abierto=presModalCid||c.id;
   render();
 }
 
@@ -835,6 +887,7 @@ function eliminarCliente(id){
 document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
 document.getElementById('edit-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarEdicion()});
 document.getElementById('foto-viewer-bg').addEventListener('click',function(e){if(e.target===this)cerrarFotoViewer()});
+document.getElementById('pres-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModalPresupuesto()});
 render();
 </script>
 </body>
