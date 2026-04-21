@@ -10,219 +10,218 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f2f2f7;color:#1a1a1a;padding-bottom:40px}
+
+/* ALERTAS */
 .alertas{padding:0 12px;margin-top:8px;display:flex;flex-direction:column;gap:6px}
 .alerta{background:#FF3B30;color:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;animation:pulse 2s infinite}
 .alerta.pronto{background:#FF9500}
 .alerta-txt{font-size:13px;font-weight:600;flex:1}
 .alerta-btn{background:rgba(255,255,255,0.3);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;cursor:pointer}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.85}}
+
+/* HEADER */
 .header{background:#fff;padding:14px 12px 10px;border-bottom:1px solid #e0e0e0;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:8px}
-.header-brand h1{font-size:20px;font-weight:800;color:#1a1a1a;letter-spacing:-.3px}
+.header-brand h1{font-size:20px;font-weight:800;color:#1a1a1a;letter-spacing:-.3px;margin-bottom:10px}
 .header-brand p{font-size:11px;color:#888;margin-top:1px}
-.marcador{display:flex;gap:7px;flex-wrap:wrap}
-.burbuja{background:#f9f9f9;border:1px solid #e5e5e5;border-radius:14px;padding:9px 13px;min-width:140px;flex:1}
+.marcador{display:flex;gap:7px}
+.burbuja{background:#f9f9f9;border:1px solid #e5e5e5;border-radius:14px;padding:9px 13px;flex:1}
 .b-nombre{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
-.b-val{font-size:19px;font-weight:800;color:#2e7d32}
+.b-val{font-size:18px;font-weight:800;color:#2e7d32}
 .b-pct{font-size:10px;color:#aaa;margin-top:1px}
-.b-items{margin-top:5px;max-height:64px;overflow-y:auto}
+.b-items{margin-top:5px;max-height:50px;overflow-y:auto}
 .b-item{font-size:10px;color:#555;background:#fff;border-radius:5px;padding:2px 7px;margin-bottom:2px;border:1px solid #eee}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:10px 12px;background:#fff;border-bottom:1px solid #e5e5e5}
-.stat{border-radius:10px;padding:7px 4px;text-align:center}
-.stat-n{font-size:16px;font-weight:800}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 12px;background:#fff;border-bottom:1px solid #e5e5e5}
+.stat{border-radius:8px;padding:6px 2px;text-align:center}
+.stat-n{font-size:15px;font-weight:800}
 .stat-l{font-size:9px;color:#888;margin-top:1px}
 .stat.am{background:#fffde7}.stat.na{background:#fff3e0}.stat.ve{background:#e8f5e9}.stat.ro{background:#ffebee}.stat.az{background:#e3f2fd}
-.toolbar{padding:9px 12px;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;gap:8px}
-.toolbar input{flex:1;padding:9px 14px;border:1px solid #ddd;border-radius:22px;font-size:13px;background:#f9f9f9;outline:none}
-.btn-add{background:#1a1a1a;color:#fff;border:none;border-radius:22px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
-.tabs{display:flex;gap:6px;padding:9px 12px;overflow-x:auto;background:#fff;border-bottom:1px solid #e5e5e5}
+
+/* TOOLBAR */
+.toolbar{padding:8px 12px;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;gap:8px;align-items:center}
+.toolbar input{flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:22px;font-size:13px;background:#f9f9f9;outline:none}
+.btn-add{background:#1a1a1a;color:#fff;border:none;border-radius:22px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* TABS */
+.tabs{display:flex;gap:5px;padding:8px 12px;overflow-x:auto;background:#fff;border-bottom:1px solid #e5e5e5}
 .tabs::-webkit-scrollbar{display:none}
-.tab{padding:5px 12px;border:1px solid #ddd;border-radius:22px;font-size:12px;cursor:pointer;background:#fff;color:#666;white-space:nowrap;flex-shrink:0;font-weight:500}
+.tab{padding:5px 11px;border:1px solid #ddd;border-radius:22px;font-size:12px;cursor:pointer;background:#fff;color:#666;white-space:nowrap;flex-shrink:0;font-weight:500;transition:all .15s}
 .tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.resumen{margin:10px 12px 0;background:#fff;border-radius:12px;padding:10px 14px;border:1px solid #e5e5e5}
+
+/* RESUMEN */
+.resumen-wrap{margin:8px 12px 0;background:#fff;border-radius:12px;padding:10px 14px;border:1px solid #e5e5e5}
 .resumen-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .resumen-titulo{font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.3px}
-.ojo-btn{background:none;border:none;cursor:pointer;font-size:18px;padding:0;line-height:1;color:#888}
-.resumen-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.ojo-btn{background:none;border:none;cursor:pointer;font-size:18px;padding:0;line-height:1}
+.resumen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .res-item{text-align:center}
-.res-label{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.3px}
-.res-val{font-size:14px;font-weight:700;margin-top:1px}
+.res-label{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:.3px}
+.res-val{font-size:13px;font-weight:700;margin-top:1px}
 .res-oculto{font-size:14px;font-weight:700;margin-top:1px;letter-spacing:3px;color:#ccc}
+
+/* LISTA */
 .list{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
-.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.card.am{border-left:4px solid #FBC02D}.card.na{border-left:4px solid #FB8C00}.card.ve{border-left:4px solid #43A047}.card.ro{border-left:4px solid #E53935}.card.az{border-left:4px solid #1976D2}
-.card-top{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
-.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
-.av.am{background:#fff9c4;color:#f57f17}.av.na{background:#ffe0b2;color:#e65100}.av.ve{background:#c8e6c9;color:#1b5e20}.av.ro{background:#ffcdd2;color:#b71c1c}.av.az{background:#bbdefb;color:#0d47a1}
+
+/* CARDS */
+.card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e5e5e5}
+.card.am{border-left:4px solid #FBC02D}.card.na{border-left:4px solid #FB8C00}
+.card.ve{border-left:4px solid #43A047}.card.ro{border-left:4px solid #E53935}.card.az{border-left:4px solid #1976D2}
+.card-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none}
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.av.am{background:#fff9c4;color:#f57f17}.av.na{background:#ffe0b2;color:#e65100}
+.av.ve{background:#c8e6c9;color:#1b5e20}.av.ro{background:#ffcdd2;color:#b71c1c}.av.az{background:#bbdefb;color:#0d47a1}
 .card-info{flex:1;min-width:0}
 .card-name{font-weight:700;font-size:14px}
-.card-sub{font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
-.badge{font-size:10px;padding:3px 9px;border-radius:20px;white-space:nowrap;font-weight:700}
-.badge.am{background:#fff9c4;color:#f57f17}.badge.na{background:#ffe0b2;color:#e65100}.badge.ve{background:#c8e6c9;color:#1b5e20}.badge.ro{background:#ffcdd2;color:#b71c1c}.badge.az{background:#bbdefb;color:#0d47a1}
-.cuenta-atras{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:#e3f2fd;color:#1565c0}
+.card-sub{font-size:11px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-actions{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:700}
+.badge.am{background:#fff9c4;color:#f57f17}.badge.na{background:#ffe0b2;color:#e65100}
+.badge.ve{background:#c8e6c9;color:#1b5e20}.badge.ro{background:#ffcdd2;color:#b71c1c}.badge.az{background:#bbdefb;color:#0d47a1}
+.card-btns{display:flex;gap:4px;margin-top:2px}
+.ic-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:3px;border-radius:6px;line-height:1}
+.ic-btn:active{background:#f0f0f0}
+.cuenta-atras{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.cuenta-atras.ok{background:#e3f2fd;color:#1565c0}
 .cuenta-atras.urgente{background:#ffebee;color:#c62828}
 .cuenta-atras.pronto{background:#fff3e0;color:#e65100}
+.com-tag{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:700;white-space:nowrap}
+.com-tag.luis{background:#e3f2fd;color:#0d47a1}
+.com-tag.cris{background:#e8f5e9;color:#1b5e20}
+
+/* CONFIRM ELIMINAR */
+.confirm-bar{display:none;background:#fff3f3;border-top:1px solid #ffcdd2;padding:10px 14px}
+.confirm-bar.show{display:block}
+.confirm-bar p{font-size:13px;color:#b71c1c;font-weight:600;margin-bottom:8px}
+.confirm-bar-btns{display:flex;gap:8px}
+.btn-si{background:#E53935;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;flex:1}
+.btn-no{background:#f2f2f7;color:#1a1a1a;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;flex:1}
+
+/* DETALLE */
 .detail{display:none;padding:0 14px 14px;border-top:1px solid #f0f0f0}
 .detail.open{display:block}
-.det-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 0}
-.det-field .lbl{font-size:10px;color:#aaa;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
-.det-field .val{font-size:13px;font-weight:600}
-.det-field .val a{color:#1976D2;text-decoration:none}
-.btn-llamar{display:block;background:#34C759;color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;margin:4px 0 10px;width:100%;text-decoration:none}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 0}
+.det-lbl{font-size:10px;color:#aaa;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+.det-val{font-size:13px;font-weight:600}
+.det-val a{color:#1976D2;text-decoration:none}
+.btn-llamar{display:block;background:#34C759;color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;margin:6px 0 10px;width:100%;text-decoration:none}
+
+/* TEMPORIZADOR */
 .temporiz{background:#e3f2fd;border-radius:10px;padding:10px 14px;margin:6px 0;display:flex;justify-content:space-between;align-items:center}
-.temp-label{font-size:12px;color:#1565c0;font-weight:600}
+.temp-lbl{font-size:12px;color:#1565c0;font-weight:600}
 .temp-fecha{font-size:11px;color:#5c8aad;margin-top:2px}
 .temp-dias{font-size:22px;font-weight:800;color:#1976D2}
 .temp-dias-lbl{font-size:10px;color:#5c8aad;text-align:right}
 .temp-dias.cero{color:#E53935}.temp-dias.poco{color:#FB8C00}
-.pres-title{font-size:11px;font-weight:700;color:#aaa;margin:8px 0 5px;text-transform:uppercase;letter-spacing:.3px}
-.pres-item{background:#f9f9f9;border-radius:10px;padding:10px;margin-bottom:5px;border:1px solid #eee}
-.pres-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
-.pres-ref{font-size:12px;font-weight:700}
-.pres-desc{font-size:11px;color:#888;margin-top:2px}
-.pres-edit-row{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap}
-.pres-edit-row label{font-size:11px;color:#888;white-space:nowrap}
-.pres-imp-input{flex:1;min-width:80px;padding:6px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;font-weight:700;color:#2e7d32;background:#f0f9f1;outline:none;text-align:right}
+
+/* PRESUPUESTOS */
+.section-title{font-size:11px;font-weight:700;color:#aaa;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.3px}
+.pres-item{background:#f9f9f9;border-radius:10px;padding:10px;margin-bottom:6px;border:1px solid #eee}
+.pres-ref{font-size:12px;font-weight:700;margin-bottom:3px}
+.pres-desc{font-size:11px;color:#888;margin-bottom:8px}
+.pres-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pres-imp-input{padding:7px 10px;border:1.5px solid #c8e6c9;border-radius:8px;font-size:13px;font-weight:700;color:#2e7d32;background:#f0f9f1;outline:none;width:120px;text-align:right}
 .pres-imp-input:focus{border-color:#43a047;background:#e8f5e9}
-.pres-com-badge{font-size:11px;font-weight:700;white-space:nowrap}
+.pres-com{font-size:11px;color:#888;flex:1}
+.pres-pdf-btn{background:#e3f2fd;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;color:#0d47a1;cursor:pointer;white-space:nowrap}
+.pres-del-btn{background:#ffebee;border:none;border-radius:6px;padding:5px 8px;font-size:11px;color:#b71c1c;cursor:pointer}
 .total-box{background:#f0f9f1;border-radius:10px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin:4px 0 8px;border:1px solid #c8e6c9}
-.total-box .lbl{font-size:11px;color:#555}
-.total-box .vals .v1{font-size:14px;font-weight:800;text-align:right}
-.total-box .vals .v2{font-size:10px;color:#2e7d32;text-align:right;margin-top:1px}
-.hist-title{font-size:11px;font-weight:700;color:#aaa;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.3px}
-.hist-list{max-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
-.hist-item{background:#f9f9f9;border-radius:8px;padding:8px 10px;border:1px solid #eee}
+.total-lbl{font-size:11px;color:#555}
+.total-right .v1{font-size:14px;font-weight:800;text-align:right}
+.total-right .v2{font-size:10px;color:#2e7d32;text-align:right;margin-top:1px}
+
+/* AÑADIR PRESUPUESTO PDF */
+.add-pres-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border:2px dashed #FF5722;border-radius:10px;background:#fbe9e7;color:#bf360c;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:8px;width:100%}
+.add-pres-btn input{display:none}
+
+/* HISTORIAL */
+.hist-list{display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto}
+.hist-item{border-radius:8px;padding:8px 10px;border:1px solid #eee}
+.hist-item.normal{background:#f9f9f9}
+.hist-item.nota{background:#e8f5e9;border-color:#c8e6c9}
 .hist-fecha{font-size:10px;color:#aaa;margin-bottom:2px}
 .hist-txt{font-size:12px;line-height:1.4}
+.hist-txt.nota-txt{color:#1b5e20;font-weight:600}
+
+/* NOTA AREA */
 .nota-area{margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0}
-.nota-label{font-size:11px;font-weight:700;color:#aaa;margin-bottom:7px;text-transform:uppercase;letter-spacing:.3px}
-.mic-row{display:flex;gap:8px;align-items:flex-start}
-.mic-btn{width:38px;height:38px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nota-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.nota-row textarea{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;resize:none;height:60px;font-family:inherit;outline:none}
+.mic-btn{width:38px;height:38px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
 .mic-btn.rec{background:#ffcdd2;border-color:#e53935}
-.nota-area textarea{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;resize:none;height:62px;font-family:inherit;outline:none;width:100%}
-.rec-ind{font-size:11px;color:#b71c1c;display:none;align-items:center;gap:5px;margin-top:5px}
+.rec-ind{font-size:11px;color:#b71c1c;display:none;align-items:center;gap:5px;margin-bottom:6px}
 .rec-ind.show{display:flex}
 .dot{width:7px;height:7px;border-radius:50%;background:#e53935;animation:bl 1s infinite}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
-.est-btns{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0 8px}
-.est-btn{padding:6px 11px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid transparent;font-weight:700}
-.est-btn.am{background:#fff9c4;color:#f57f17;border-color:#fbc02d}.est-btn.na{background:#ffe0b2;color:#e65100;border-color:#fb8c00}.est-btn.ve{background:#c8e6c9;color:#1b5e20;border-color:#43a047}.est-btn.ro{background:#ffcdd2;color:#b71c1c;border-color:#e53935}.est-btn.az{background:#bbdefb;color:#0d47a1;border-color:#1976d2}
+.est-btns{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.est-btn{padding:6px 10px;border-radius:20px;font-size:12px;cursor:pointer;border:1.5px solid transparent;font-weight:700;transition:all .1s}
+.est-btn.am{background:#fff9c4;color:#f57f17;border-color:#fbc02d}.est-btn.na{background:#ffe0b2;color:#e65100;border-color:#fb8c00}
+.est-btn.ve{background:#c8e6c9;color:#1b5e20;border-color:#43a047}.est-btn.ro{background:#ffcdd2;color:#b71c1c;border-color:#e53935}.est-btn.az{background:#bbdefb;color:#0d47a1;border-color:#1976d2}
 .est-btn.sel{box-shadow:0 0 0 2.5px #1a1a1a}
-.nota-btns{display:flex;gap:8px;margin-top:6px}
-.btn-save{background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;flex:1}
-.fecha-futuro{margin-top:8px}
-.fecha-futuro label{font-size:11px;font-weight:700;color:#1565c0;display:block;margin-bottom:4px}
-.fecha-futuro input{padding:8px 12px;border:1px solid #90caf9;border-radius:8px;font-size:13px;background:#e3f2fd;color:#1a1a1a;outline:none;width:100%}
+.fecha-fut{margin-bottom:8px}
+.fecha-fut label{font-size:11px;font-weight:700;color:#1565c0;display:block;margin-bottom:4px}
+.fecha-fut input{padding:8px 12px;border:1px solid #90caf9;border-radius:8px;font-size:13px;background:#e3f2fd;outline:none;width:100%}
+.nota-save-btn{background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%}
+
+/* FOTOS */
+.fotos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.foto-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid #eee;cursor:pointer;display:block}
+.foto-add-row{display:flex;gap:8px;margin-bottom:8px}
+.foto-btn{flex:1;padding:10px;border:2px dashed #ddd;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600;color:#888}
+.foto-btn input{display:none}
+.foto-btn.cam{border-color:#4CAF50;color:#2e7d32;background:#f1f8e9}
+.foto-btn.gal{border-color:#2196F3;color:#0d47a1;background:#e3f2fd}
+
+/* VISOR FOTO */
+.foto-viewer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:500;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px}
+.foto-viewer.open{display:flex}
+.foto-viewer img{max-width:100%;max-height:75vh;border-radius:10px;object-fit:contain}
+.foto-viewer-btns{display:flex;gap:12px}
+.fv-del{background:#ff3b30;border:none;color:#fff;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer}
+.fv-close{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer}
+
+/* MODALES */
 .modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:200;padding:16px;overflow-y:auto}
 .modal-bg.open{display:block}
 .modal{background:#fff;border-radius:18px;padding:20px;max-width:500px;margin:10px auto}
-.modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
+.modal h3{font-size:16px;font-weight:800;margin-bottom:14px}
 .modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
-.modal input,.modal select,.modal textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none;font-family:inherit}
+.modal input,.modal textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none;font-family:inherit}
 .modal textarea{height:60px;resize:none}
-.pdf-zone{border:2px dashed #ddd;border-radius:10px;padding:14px;text-align:center;margin:10px 0;cursor:pointer;font-size:12px;color:#888;background:#fafafa}
+.modal-btns{display:flex;gap:8px;margin-top:16px}
+.modal-btns .mbtn-ok{flex:1;background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;cursor:pointer}
+.modal-btns .mbtn-cancel{flex:1;background:#fff;color:#1a1a1a;border:1.5px solid #ddd;border-radius:10px;padding:11px;font-size:13px;font-weight:600;cursor:pointer}
+.pdf-zone{border:2px dashed #ddd;border-radius:10px;padding:14px;text-align:center;cursor:pointer;font-size:12px;color:#888;background:#fafafa;margin-bottom:10px}
 .pdf-zone input{display:none}
 .pdf-ok{font-size:12px;color:#2e7d32;margin-top:5px;font-weight:700}
-.modal-btns{display:flex;gap:8px;margin-top:16px}
-.modal-btns .btn-save{padding:11px}
-.btn-cancel{flex:1;background:#fff;color:#1a1a1a;border:1.5px solid #ddd;border-radius:10px;padding:11px;font-size:13px;font-weight:600;cursor:pointer}
-.new-est-btns{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0 2px}
-.empty{text-align:center;padding:40px 20px;color:#bbb;font-size:14px}
-.fecha-futuro-modal{margin-top:6px;display:none}
-.fecha-futuro-modal.show{display:block}
-.fecha-futuro-modal label{color:#1565c0}
-.fecha-futuro-modal input{background:#e3f2fd;border-color:#90caf9}
-.fotos-section{margin:8px 0}
-.fotos-title{font-size:11px;font-weight:700;color:#aaa;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.3px}
-.fotos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
-.foto-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid #eee;cursor:pointer}
-.foto-add-btn{width:100%;aspect-ratio:1;border:2px dashed #ddd;border-radius:8px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:#bbb;gap:4px}
-.foto-add-btn span{font-size:10px;color:#bbb;font-weight:600}
-.foto-add-btn:active{background:#f0f0f0}
-.foto-input{display:none}
-.foto-viewer-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:400;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.foto-viewer-bg.open{display:flex}
-.foto-viewer-img{max-width:95vw;max-height:80vh;border-radius:10px;object-fit:contain}
-.foto-viewer-btns{display:flex;gap:12px}
-.foto-viewer-close{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
-.foto-viewer-delete{background:#ff3b30;border:none;color:#fff;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer}
-.docs-grid{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
-.doc-item{background:#f9f9f9;border:1px solid #eee;border-radius:8px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.doc-name{font-size:12px;font-weight:600;color:#1a1a1a;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.doc-size{font-size:10px;color:#aaa;white-space:nowrap}
-.doc-btns{display:flex;gap:6px}
-.doc-open-btn{background:#e3f2fd;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;color:#0d47a1;cursor:pointer}
-.doc-del-btn{background:#ffebee;border:none;border-radius:6px;padding:5px 8px;font-size:11px;color:#b71c1c;cursor:pointer}
-.media-add-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-.media-btn{flex:1;min-width:120px;padding:10px;border:2px dashed #ddd;border-radius:10px;background:#fafafa;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12px;font-weight:600;color:#888}
-.media-btn:active{background:#f0f0f0}
-.media-btn-cam{border-color:#4CAF50;color:#2e7d32;background:#f1f8e9}
-.media-btn-gal{border-color:#2196F3;color:#0d47a1;background:#e3f2fd}
-.media-btn-pdf{border-color:#FF5722;color:#bf360c;background:#fbe9e7}
-.pres-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:400;padding:16px;overflow-y:auto}
-.pres-modal-bg.open{display:block}
-.pres-modal{background:#fff;border-radius:18px;padding:20px;max-width:480px;margin:20px auto}
-.pres-modal h3{font-size:16px;font-weight:800;margin-bottom:4px}
-.pres-modal .pdf-tag{font-size:11px;color:#bf360c;background:#fbe9e7;border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:14px;font-weight:600}
-.pres-modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
-.pres-modal input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none}
-
-
-
-.edit-modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:300;padding:16px;overflow-y:auto}
-.edit-modal-bg.open{display:block}
-.edit-modal{background:#fff;border-radius:18px;padding:20px;max-width:500px;margin:10px auto}
-.edit-modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
-.edit-modal label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:3px;margin-top:10px;text-transform:uppercase;letter-spacing:.3px}
-.edit-modal input,.edit-modal select,.edit-modal textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#f9f9f9;outline:none;font-family:inherit}
-.pencil-btn{background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px;border-radius:6px;color:#888;line-height:1}
-.pencil-btn:active{background:#e3f2fd}
-.comercial-selector{display:flex;gap:8px;margin-top:6px}
-.com-opt{flex:1;padding:10px;border-radius:10px;border:2px solid #ddd;text-align:center;cursor:pointer;font-size:13px;font-weight:600;background:#f9f9f9}
+.com-selector{display:flex;gap:8px;margin-top:6px}
+.com-opt{flex:1;padding:10px;border-radius:10px;border:2px solid #ddd;text-align:center;cursor:pointer;font-size:12px;font-weight:700;background:#f9f9f9;transition:all .15s}
 .com-opt.sel-luis{background:#e3f2fd;border-color:#1976D2;color:#0d47a1}
 .com-opt.sel-cris{background:#e8f5e9;border-color:#43A047;color:#1b5e20}
-.com-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;white-space:nowrap}
-.com-tag.luis{background:#e3f2fd;color:#0d47a1}
-.com-tag.cris{background:#e8f5e9;color:#1b5e20}
-
-.btn-delete{background:#ff3b30;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
-.btn-delete:active{opacity:.8}
-.confirm-delete{background:#fff3f3;border:1.5px solid #ff3b30;border-radius:0 0 14px 14px;padding:10px 14px;display:none;border-top:none}
-.confirm-delete.show{display:block}
-.confirm-delete p{font-size:13px;color:#1a1a1a;margin-bottom:10px;font-weight:500}
-.confirm-delete-btns{display:flex;gap:8px}
-.card-top-wrap{position:relative}
-.trash-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:2px 4px;border-radius:6px;color:#aaa;margin-top:2px;line-height:1}
-.trash-btn:active{background:#ffebee}
-
-.btn-confirm-si{background:#ff3b30;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;flex:1}
-.btn-confirm-no{background:#f2f2f7;color:#1a1a1a;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;flex:1}
-
+.new-est-btns{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.fecha-fut-modal{display:none;margin-top:6px}
+.fecha-fut-modal.show{display:block}
+.pres-modal-tag{font-size:11px;color:#bf360c;background:#fbe9e7;border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:10px;font-weight:600}
+.empty{text-align:center;padding:40px 20px;color:#bbb;font-size:14px}
 </style>
 </head>
 <body>
 
-<div id="alertas-container"></div>
+<div id="alertas-box"></div>
 
 <div class="header">
-  <div class="header-top">
-    <div class="header-brand">
-      <h1>Soresca Comercial</h1>
-      <p>Cerramientos de aluminio · Zaragoza</p>
-    </div>
+  <div class="header-brand">
+    <h1>Soresca Comercial</h1>
   </div>
   <div class="marcador">
     <div class="burbuja">
-      <div class="b-nombre">Luis · Solo</div>
+      <div class="b-nombre">Solo Luis · 4%</div>
       <div class="b-val" id="com-luis">0,00 €</div>
-      <div class="b-pct">4% sobre contratos</div>
       <div class="b-items" id="bl-luis"></div>
     </div>
     <div class="burbuja">
-      <div class="b-nombre">Luis y Cristian</div>
+      <div class="b-nombre">Luis y Cristian · 2%</div>
       <div class="b-val" id="com-cris">0,00 €</div>
-      <div class="b-pct">2% sobre contratos</div>
       <div class="b-items" id="bl-cris"></div>
     </div>
   </div>
@@ -237,658 +236,629 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 </div>
 
 <div class="toolbar">
-  <input type="text" id="search" placeholder="Buscar cliente, dirección..." oninput="render()">
-  <button class="btn-add" onclick="abrirModal()">+ Nuevo</button>
+  <input type="text" id="search" placeholder="Buscar..." oninput="renderList()">
+  <button class="btn-add" onclick="openModal('nuevo')">+ Nuevo</button>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="setTab('todos',this)">Todos</div>
-  <div class="tab" onclick="setTab('amarillo',this)">🟡 Nuevos</div>
-  <div class="tab" onclick="setTab('naranja',this)">🟠 Seguimiento</div>
-  <div class="tab" onclick="setTab('verde',this)">🟢 Contratan</div>
-  <div class="tab" onclick="setTab('rojo',this)">🔴 No contratan</div>
-  <div class="tab" onclick="setTab('azul',this)">🔵 Futuro</div>
+  <div class="tab active" data-tab="todos" onclick="setTab(this)">Todos</div>
+  <div class="tab" data-tab="amarillo" onclick="setTab(this)">🟡 Nuevos</div>
+  <div class="tab" data-tab="naranja" onclick="setTab(this)">🟠 Seguimiento</div>
+  <div class="tab" data-tab="verde" onclick="setTab(this)">🟢 Contratan</div>
+  <div class="tab" data-tab="rojo" onclick="setTab(this)">🔴 No contratan</div>
+  <div class="tab" data-tab="azul" onclick="setTab(this)">🔵 Futuro</div>
 </div>
 
-<div id="resumen-box"></div>
+<div id="resumen-wrap"></div>
 <div class="list" id="list"></div>
 
-<div class="modal-bg" id="modal-bg">
+<!-- MODAL NUEVO CLIENTE -->
+<div class="modal-bg" id="modal-nuevo">
   <div class="modal">
     <h3>Nuevo cliente</h3>
-    <label class="pdf-zone" id="pdf-label">
-      <input type="file" id="pdf-input" accept=".pdf" onchange="cargarPDF(event)">
-      📄 Sube el PDF del presupuesto
-      <div class="pdf-ok" id="pdf-ok" style="display:none"></div>
+    <label class="pdf-zone">
+      <input type="file" accept=".pdf" onchange="leerPDFNuevo(event)">
+      📄 Sube PDF del presupuesto (opcional)
+      <div class="pdf-ok" id="nuevo-pdf-ok" style="display:none"></div>
     </label>
-    <label>Nombre y apellidos *</label>
-    <input type="text" id="n-nombre" placeholder="Ej: Ana García">
-    <label>Teléfono</label>
-    <input type="tel" id="n-tel" placeholder="600 000 000">
-    <label>Email</label>
-    <input type="email" id="n-email" placeholder="correo@email.com">
-    <label>Dirección</label>
-    <input type="text" id="n-dir" placeholder="Calle, número, ciudad">
-    <label>Ref. presupuesto</label>
-    <input type="text" id="n-ref" placeholder="2026.01.XXX">
-    <label>Importe total (€)</label>
-    <input type="number" id="n-imp" placeholder="15000">
-    <label>Descripción del presupuesto</label>
-    <input type="text" id="n-desc" placeholder="Cerramiento aluminio ral 9006...">
-    <label>Nota inicial</label>
-    <textarea id="n-nota" placeholder="Comentario inicial..."></textarea>
+    <input type="hidden" id="nuevo-pdf-data">
+    <input type="hidden" id="nuevo-pdf-name">
+    <label>Nombre *</label><input type="text" id="nuevo-nombre" placeholder="Ej: Ana García">
+    <label>Teléfono</label><input type="tel" id="nuevo-tel" placeholder="600 000 000">
+    <label>Email</label><input type="email" id="nuevo-email" placeholder="correo@email.com">
+    <label>Dirección</label><input type="text" id="nuevo-dir" placeholder="Calle, número, ciudad">
+    <label>Ref. presupuesto</label><input type="text" id="nuevo-ref" placeholder="2026.01.XXX">
+    <label>Importe (€)</label><input type="number" id="nuevo-imp" placeholder="15000">
+    <label>Descripción presupuesto</label><input type="text" id="nuevo-desc" placeholder="Cerramiento ral 9006...">
     <label>Comercial</label>
-    <div class="comercial-selector" id="new-com-selector">
-      <div class="com-opt sel-luis" id="ncom-luis" onclick="selNuevoCom('luis')">👤 Solo Luis<br><small style="font-weight:400;font-size:11px">Comisión 4%</small></div>
-      <div class="com-opt" id="ncom-cris" onclick="selNuevoCom('cristian')">👥 Luis y Cristian<br><small style="font-weight:400;font-size:11px">Comisión 2%</small></div>
+    <div class="com-selector">
+      <div class="com-opt sel-luis" id="nuevo-com-luis" onclick="selCom('nuevo','luis')">👤 Solo Luis<br><small style="font-weight:400">4%</small></div>
+      <div class="com-opt" id="nuevo-com-cris" onclick="selCom('nuevo','cristian')">👥 Luis y Cristian<br><small style="font-weight:400">2%</small></div>
     </div>
     <label>Estado</label>
-    <div class="new-est-btns">
-      <button class="est-btn am sel" id="neb-am" onclick="selNuevoEst('amarillo')">🟡 Nuevo</button>
-      <button class="est-btn na" id="neb-na" onclick="selNuevoEst('naranja')">🟠 Seguimiento</button>
-      <button class="est-btn ve" id="neb-ve" onclick="selNuevoEst('verde')">🟢 Contrata</button>
-      <button class="est-btn ro" id="neb-ro" onclick="selNuevoEst('rojo')">🔴 No contrata</button>
-      <button class="est-btn az" id="neb-az" onclick="selNuevoEst('azul')">🔵 Futuro</button>
+    <div class="new-est-btns" id="nuevo-est-btns">
+      <button class="est-btn am sel" onclick="selEstModal('nuevo','amarillo')">🟡 Nuevo</button>
+      <button class="est-btn na" onclick="selEstModal('nuevo','naranja')">🟠 Seguimiento</button>
+      <button class="est-btn ve" onclick="selEstModal('nuevo','verde')">🟢 Contrata</button>
+      <button class="est-btn ro" onclick="selEstModal('nuevo','rojo')">🔴 No contrata</button>
+      <button class="est-btn az" onclick="selEstModal('nuevo','azul')">🔵 Futuro</button>
     </div>
-    <div class="fecha-futuro-modal" id="fecha-futuro-modal">
-      <label>Fecha estimada de compra</label>
-      <input type="date" id="n-fecha-futuro">
+    <div class="fecha-fut-modal" id="nuevo-fecha-modal">
+      <label>Fecha estimada compra</label>
+      <input type="date" id="nuevo-fecha-futuro">
     </div>
     <div class="modal-btns">
-      <button class="btn-save" onclick="guardarNuevo()">Guardar cliente</button>
-      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="mbtn-ok" onclick="guardarNuevo()">Guardar</button>
+      <button class="mbtn-cancel" onclick="closeModal('nuevo')">Cancelar</button>
     </div>
   </div>
 </div>
 
-
-
-<div class="foto-viewer-bg" id="foto-viewer-bg">
-  <img class="foto-viewer-img" id="foto-viewer-img" src="">
-  <div class="foto-viewer-btns">
-    <button class="foto-viewer-delete" onclick="eliminarFotoVista()">🗑️ Eliminar</button>
-    <button class="foto-viewer-close" onclick="cerrarFotoViewer()">Cerrar</button>
-  </div>
-</div>
-
-
-<div class="pres-modal-bg" id="pres-modal-bg">
-  <div class="pres-modal">
-    <h3>📄 Nuevo presupuesto desde PDF</h3>
-    <div class="pdf-tag" id="pm-filename"></div>
-    <input type="hidden" id="pm-pdfdata">
-    <label>Referencia del presupuesto</label>
-    <input type="text" id="pm-ref" placeholder="Ej: 2026.01.123">
-    <label>Importe total (€)</label>
-    <input type="number" id="pm-imp" placeholder="Ej: 15000">
-    <label>Descripción</label>
-    <input type="text" id="pm-desc" placeholder="Ej: Cerramiento ral 9006 · techo + cortina...">
-    <div class="modal-btns" style="margin-top:16px">
-      <button class="btn-save" onclick="guardarPresupuestoModal()">Añadir presupuesto</button>
-      <button class="btn-cancel" onclick="cerrarModalPresupuesto()">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<div class="edit-modal-bg" id="edit-modal-bg">
-  <div class="edit-modal">
+<!-- MODAL EDITAR CLIENTE -->
+<div class="modal-bg" id="modal-editar">
+  <div class="modal">
     <h3>✏️ Editar cliente</h3>
-    <label>Nombre y apellidos</label>
-    <input type="text" id="e-nombre" placeholder="Nombre">
-    <label>Teléfono</label>
-    <input type="tel" id="e-tel" placeholder="600 000 000">
-    <label>Email</label>
-    <input type="email" id="e-email" placeholder="correo@email.com">
-    <label>Dirección</label>
-    <input type="text" id="e-dir" placeholder="Calle, número, ciudad">
+    <input type="hidden" id="edit-id">
+    <label>Nombre</label><input type="text" id="edit-nombre">
+    <label>Teléfono</label><input type="tel" id="edit-tel">
+    <label>Email</label><input type="email" id="edit-email">
+    <label>Dirección</label><input type="text" id="edit-dir">
     <label>Comercial</label>
-    <div class="comercial-selector">
-      <div class="com-opt sel-luis" id="ecom-luis" onclick="selEditCom('luis')">👤 Solo Luis<br><small style="font-weight:400;font-size:11px">Comisión 4%</small></div>
-      <div class="com-opt" id="ecom-cris" onclick="selEditCom('cristian')">👥 Luis y Cristian<br><small style="font-weight:400;font-size:11px">Comisión 2%</small></div>
+    <div class="com-selector">
+      <div class="com-opt" id="edit-com-luis" onclick="selCom('edit','luis')">👤 Solo Luis<br><small style="font-weight:400">4%</small></div>
+      <div class="com-opt" id="edit-com-cris" onclick="selCom('edit','cristian')">👥 Luis y Cristian<br><small style="font-weight:400">2%</small></div>
     </div>
-    <div class="modal-btns" style="margin-top:16px">
-      <button class="btn-save" onclick="guardarEdicion()">Guardar cambios</button>
-      <button class="btn-cancel" onclick="cerrarEdicion()">Cancelar</button>
+    <div class="modal-btns">
+      <button class="mbtn-ok" onclick="guardarEdicion()">Guardar cambios</button>
+      <button class="mbtn-cancel" onclick="closeModal('editar')">Cancelar</button>
     </div>
   </div>
 </div>
-<script>
-var ORDEN=['amarillo','naranja','azul','verde','rojo'];
-var tabActual='todos', abierto=null, nuevoEst='amarillo', grabando=false, mediaRec=null, nextId=100;
-var ocultoResumen=false;
 
-var clientes=[
-  {id:1,nombre:"Ana García",tel:"622888782",email:"joseluisyana@live.com",dir:"C/ Salomón y la Reina de Saba nº 36 7ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.123",imp:20318.20,desc:"Cerramiento ral 9006 · techo fijo + cortina cristal + grúa"},{ref:"2026.01.124",imp:5445.18,desc:"Avance terraza · techo fijo + fijo lateral"}],
-   hist:[{f:"05/02/2026",t:"Presupuestos 123 y 124 enviados"}]},
-  {id:2,nombre:"Víctor",tel:"699097663",email:"vclares@hotmail.es",dir:"C/ Enriqueta Castejón nº 20 esc. 2 2ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.127",imp:9521.49,desc:"Cerramiento ral 7035/7040 · techo + cortina abatible DG28"}],
-   hist:[{f:"05/02/2026",t:"Presupuesto 127 enviado"}]},
-  {id:3,nombre:"Ernesto Sebastián",tel:"620332731",email:"ernestosebastian23@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 1 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.125",imp:23832.16,desc:"Cerramiento blanco · techo + DG20 + grúa"},{ref:"2026.01.126",imp:35341.68,desc:"Cerramiento blanco · pérgola mixta + DG20 + grúa"}],
-   hist:[{f:"05/02/2026",t:"Opciones: económica (125) y premium (126)"}]},
-  {id:4,nombre:"Henry",tel:"635898623",email:"enriquealviarsilva@gmail.com",dir:"Av. Ribaforada nº 27, Ablitas",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.120",imp:17840.24,desc:"Techo móvil manual TM16 x2"},{ref:"2026.01.121",imp:25684.67,desc:"Techo móvil manual + motorizado DG26"}],
-   hist:[{f:"05/02/2026",t:"Presupuestos 120 y 121 enviados"},{f:"13/04/2026",t:"No responde"}]},
-  {id:5,nombre:"Noelia",tel:"686954241",email:"noeliabellostasmuguerza@gmail.com",dir:"C/ Salomón y la Reina de Saba nº 20 5ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.142",imp:28508.81,desc:"Cerramiento ral 9006 · techo + cortinas DG20 + DG24 + grúa"}],
-   hist:[{f:"14/02/2026",t:"Presupuesto 142 enviado"}]},
-  {id:6,nombre:"Julio y Belén",tel:"654712022",email:"juliov.g.luintra@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 7 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.141",imp:23173.92,desc:"Cerramiento blanco · techo 6840x7000 + DG20 + grúa"}],
-   hist:[{f:"14/02/2026",t:"Presupuesto 141 enviado"},{f:"13/04/2026",t:"Llamar miércoles a las 17h"}]},
-  {id:7,nombre:"Marc Cleries",tel:"651351119",email:"marc.cleries4@gmail.com",dir:"C/ Picasso nº 4 6º 5ª, Lérida",estado:"rojo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.138",imp:22057.00,desc:"Cerramiento plata · pérgola bioclimática DG210 + DG20"}],
-   hist:[{f:"14/02/2026",t:"Presupuesto 138 enviado"},{f:"13/04/2026",t:"No contrata"}]},
-  {id:8,nombre:"Laura",tel:"605687575",email:"lauramartintarifa8@gmail.com",dir:"C/ Pierrette Gargallo nº 8 8ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.135",imp:6480.76,desc:"Cortina abatible DG28 ral 7016 forma L"},{ref:"2026.01.136",imp:5498.24,desc:"Cortina abatible DG24 ral 7016 forma L (económica)"}],
-   hist:[{f:"14/02/2026",t:"Opciones DG28 (135) y DG24 económica (136)"}]},
-  {id:9,nombre:"Eduardo",tel:"647780750",email:"eduardo.sicilia@facigroup.com",dir:"Av. Aragón nº 17, Urb. El Condado",estado:"amarillo",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"2026.01.249",imp:55886.27,desc:"Pérgola bioclimática DG210 ral 7016 · 3 módulos + DG20 x4"}],
-   hist:[{f:"23/03/2026",t:"Presupuesto 249 enviado. Obra grande"}]},
-  {id:10,nombre:"Antonio",tel:"",email:"",dir:"Oliver, Zaragoza",estado:"verde",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"13/04/2026",t:"Contrata con financiación"}]},
-  {id:11,nombre:"Clara",tel:"",email:"",dir:"Tenor Fleta, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"10/03/2026",t:"Llamar el viernes. Mirando todo"}]},
-  {id:12,nombre:"Jaime",tel:"",email:"",dir:"Luesia",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"13/04/2026",t:"Llamar miércoles. Se les va de presupuesto"}]},
-  {id:13,nombre:"Víctor Sunadiel",tel:"",email:"",dir:"Lérida",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"132",imp:10442.00,desc:"Pendiente cierre visita en tienda"}],
-   hist:[{f:"13/04/2026",t:"Llamar para cerrar visita en tienda"}]},
-  {id:14,nombre:"Victor Sancho",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"179/180",imp:36569.83,desc:"Dos opciones enviadas"}],
-   hist:[{f:"13/04/2026",t:"Parece interesado pero no responde"}]},
-  {id:15,nombre:"Noé",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"178",imp:16723.41,desc:"No había mirado el presupuesto"}],
-   hist:[{f:"13/04/2026",t:"No cogió el teléfono. Llamar miércoles 10:30h"}]},
-  {id:16,nombre:"Ana Cabanillas",tel:"",email:"",dir:"Cadreita",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"177",imp:9889.33,desc:"Lo ven muy caro a priori"}],
-   hist:[{f:"13/04/2026",t:"Mandar 2º presupuesto"}]},
-  {id:17,nombre:"Teresa",tel:"",email:"",dir:"Movera, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"158/159",imp:44490.49,desc:"Esperando presupuesto de albañil"}],
-   hist:[{f:"13/04/2026",t:"Llamar viernes. Esperando presu de albañil"}]},
-  {id:18,nombre:"Ismael Callejas",tel:"",email:"",dir:"Calle Benasque, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"187",imp:21355.29,desc:"Consultar si les hago seguimiento"}],
-   hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
-  {id:19,nombre:"Mariano Gil",tel:"",email:"",dir:"Calle Lagos de Coronas",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"182",imp:5244.14,desc:"Consultar si les hago seguimiento"}],
-   hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento"}]},
-  {id:20,nombre:"Andrea",tel:"",email:"",dir:"Boltaña",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[{ref:"118",imp:10286.21,desc:"No responde"}],
-   hist:[{f:"13/04/2026",t:"No responde"}]},
-  {id:21,nombre:"Eva",tel:"",email:"",dir:"Ismael Hipólito, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"13/04/2026",t:"No responde"}]},
-  {id:22,nombre:"Fernando",tel:"",email:"",dir:"Torre Barajas",estado:"rojo",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"13/04/2026",t:"No contrata. Le parece muy caro"}]},
-  {id:23,nombre:"Fernando",tel:"",email:"",dir:"Montmesa",estado:"rojo",fechaFuturo:"",comercial:"luis",
-   pres:[],hist:[{f:"13/04/2026",t:"No contrata por ahora"}]}
+<!-- MODAL AÑADIR PRESUPUESTO PDF -->
+<div class="modal-bg" id="modal-pres">
+  <div class="modal">
+    <h3>📄 Nuevo presupuesto</h3>
+    <input type="hidden" id="pres-cid">
+    <input type="hidden" id="pres-pdf-data">
+    <div class="pres-modal-tag" id="pres-modal-tag" style="display:none"></div>
+    <label>Referencia</label><input type="text" id="pres-ref" placeholder="2026.01.XXX">
+    <label>Importe (€)</label><input type="number" id="pres-imp" placeholder="15000">
+    <label>Descripción</label><input type="text" id="pres-desc" placeholder="Cerramiento aluminio...">
+    <div class="modal-btns">
+      <button class="mbtn-ok" onclick="guardarPres()">Añadir presupuesto</button>
+      <button class="mbtn-cancel" onclick="closeModal('pres')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- VISOR FOTO -->
+<div class="foto-viewer" id="foto-viewer">
+  <img id="fv-img" src="" alt="foto">
+  <div class="foto-viewer-btns">
+    <button class="fv-del" onclick="deleteFotoViewer()">🗑️ Eliminar</button>
+    <button class="fv-close" onclick="closeFotoViewer()">Cerrar</button>
+  </div>
+</div>
+
+<script>
+// ===================== DATOS =====================
+var ORDEN = ['amarillo','naranja','azul','verde','rojo'];
+var tabActual = 'todos';
+var abierto = null;
+var ojoOculto = localStorage.getItem('ojo') === '1';
+var grabando = false;
+var mediaRec = null;
+var fvCid = null, fvIdx = null;
+var modalComercial = {nuevo:'luis', edit:'luis'};
+var modalEstado = {nuevo:'amarillo'};
+var nextId = 100;
+
+var clientes = [
+  {id:1,nombre:"Ana García",tel:"622888782",email:"joseluisyana@live.com",dir:"C/ Salomón y la Reina de Saba nº 36 7ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.123",imp:20318.20,desc:"Cerramiento ral 9006 · techo fijo + cortina cristal + grúa",pdf:null},{ref:"2026.01.124",imp:5445.18,desc:"Avance terraza · techo fijo + fijo lateral",pdf:null}],
+   hist:[{f:"05/02/2026",t:"Presupuestos 123 y 124 enviados",nota:false}]},
+  {id:2,nombre:"Víctor",tel:"699097663",email:"vclares@hotmail.es",dir:"C/ Enriqueta Castejón nº 20 esc. 2 2ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.127",imp:9521.49,desc:"Cerramiento ral 7035/7040 · techo + cortina abatible DG28",pdf:null}],
+   hist:[{f:"05/02/2026",t:"Presupuesto 127 enviado",nota:false}]},
+  {id:3,nombre:"Ernesto Sebastián",tel:"620332731",email:"ernestosebastian23@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 1 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.125",imp:23832.16,desc:"Cerramiento blanco · techo + DG20 + grúa",pdf:null},{ref:"2026.01.126",imp:35341.68,desc:"Pérgola mixta + DG20 + grúa",pdf:null}],
+   hist:[{f:"05/02/2026",t:"Opciones económica (125) y premium (126)",nota:false}]},
+  {id:4,nombre:"Henry",tel:"635898623",email:"enriquealviarsilva@gmail.com",dir:"Av. Ribaforada nº 27, Ablitas",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.120",imp:17840.24,desc:"Techo móvil manual TM16 x2",pdf:null},{ref:"2026.01.121",imp:25684.67,desc:"Techo móvil manual + motorizado DG26",pdf:null}],
+   hist:[{f:"05/02/2026",t:"Presupuestos 120 y 121 enviados",nota:false},{f:"13/04/2026",t:"No responde",nota:false}]},
+  {id:5,nombre:"Noelia",tel:"686954241",email:"noeliabellostasmuguerza@gmail.com",dir:"C/ Salomón y la Reina de Saba nº 20 5ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.142",imp:28508.81,desc:"Cerramiento ral 9006 · techo + DG20 + DG24 + grúa",pdf:null}],
+   hist:[{f:"14/02/2026",t:"Presupuesto 142 enviado",nota:false}]},
+  {id:6,nombre:"Julio y Belén",tel:"654712022",email:"juliov.g.luintra@gmail.com",dir:"Av. Patio de los Naranjos nº 21 esc. 7 5ºA",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.141",imp:23173.92,desc:"Cerramiento blanco · techo 6840x7000 + DG20 + grúa",pdf:null}],
+   hist:[{f:"14/02/2026",t:"Presupuesto 141 enviado",nota:false},{f:"13/04/2026",t:"Llamar miércoles a las 17h",nota:false}]},
+  {id:7,nombre:"Marc Cleries",tel:"651351119",email:"marc.cleries4@gmail.com",dir:"C/ Picasso nº 4 6º 5ª, Lérida",estado:"rojo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.138",imp:22057.00,desc:"Pérgola bioclimática DG210 + DG20",pdf:null}],
+   hist:[{f:"13/04/2026",t:"No contrata",nota:false}]},
+  {id:8,nombre:"Laura",tel:"605687575",email:"lauramartintarifa8@gmail.com",dir:"C/ Pierrette Gargallo nº 8 8ºA",estado:"amarillo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.135",imp:6480.76,desc:"Cortina abatible DG28 ral 7016 forma L",pdf:null},{ref:"2026.01.136",imp:5498.24,desc:"Cortina abatible DG24 ral 7016 forma L (económica)",pdf:null}],
+   hist:[{f:"14/02/2026",t:"Opciones DG28 (135) y DG24 económica (136)",nota:false}]},
+  {id:9,nombre:"Eduardo",tel:"647780750",email:"eduardo.sicilia@facigroup.com",dir:"Av. Aragón nº 17, Urb. El Condado",estado:"amarillo",fechaFuturo:"",comercial:"luis",fotos:[],
+   pres:[{ref:"2026.01.249",imp:55886.27,desc:"Pérgola bioclimática DG210 ral 7016 · 3 módulos + DG20 x4",pdf:null}],
+   hist:[{f:"23/03/2026",t:"Presupuesto 249 enviado. Obra grande",nota:false}]},
+  {id:10,nombre:"Antonio",tel:"",email:"",dir:"Oliver, Zaragoza",estado:"verde",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"13/04/2026",t:"Contrata con financiación",nota:false}]},
+  {id:11,nombre:"Clara",tel:"",email:"",dir:"Tenor Fleta, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"10/03/2026",t:"Llamar el viernes",nota:false}]},
+  {id:12,nombre:"Jaime",tel:"",email:"",dir:"Luesia",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"13/04/2026",t:"Llamar miércoles. Se les va de presupuesto",nota:false}]},
+  {id:13,nombre:"Víctor Sunadiel",tel:"",email:"",dir:"Lérida",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"132",imp:10442.00,desc:"Pendiente cierre visita en tienda",pdf:null}],hist:[{f:"13/04/2026",t:"Llamar para cerrar visita en tienda",nota:false}]},
+  {id:14,nombre:"Victor Sancho",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"179/180",imp:36569.83,desc:"Dos opciones enviadas",pdf:null}],hist:[{f:"13/04/2026",t:"Parece interesado pero no responde",nota:false}]},
+  {id:15,nombre:"Noé",tel:"",email:"",dir:"Ribaforada",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"178",imp:16723.41,desc:"No había mirado el presupuesto",pdf:null}],hist:[{f:"13/04/2026",t:"No cogió el teléfono",nota:false}]},
+  {id:16,nombre:"Ana Cabanillas",tel:"",email:"",dir:"Cadreita",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"177",imp:9889.33,desc:"Lo ven muy caro a priori",pdf:null}],hist:[{f:"13/04/2026",t:"Mandar 2º presupuesto",nota:false}]},
+  {id:17,nombre:"Teresa",tel:"",email:"",dir:"Movera, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"158/159",imp:44490.49,desc:"Esperando presupuesto de albañil",pdf:null}],hist:[{f:"13/04/2026",t:"Llamar viernes. Esperando presu albañil",nota:false}]},
+  {id:18,nombre:"Ismael Callejas",tel:"",email:"",dir:"Calle Benasque, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"187",imp:21355.29,desc:"Consultar seguimiento",pdf:null}],hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento",nota:false}]},
+  {id:19,nombre:"Mariano Gil",tel:"",email:"",dir:"Calle Lagos de Coronas",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"182",imp:5244.14,desc:"Consultar seguimiento",pdf:null}],hist:[{f:"13/04/2026",t:"Consultar si les hago seguimiento",nota:false}]},
+  {id:20,nombre:"Andrea",tel:"",email:"",dir:"Boltaña",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[{ref:"118",imp:10286.21,desc:"No responde",pdf:null}],hist:[{f:"13/04/2026",t:"No responde",nota:false}]},
+  {id:21,nombre:"Eva",tel:"",email:"",dir:"Ismael Hipólito, Zaragoza",estado:"naranja",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"13/04/2026",t:"No responde",nota:false}]},
+  {id:22,nombre:"Fernando",tel:"",email:"",dir:"Torre Barajas",estado:"rojo",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"13/04/2026",t:"No contrata. Le parece muy caro",nota:false}]},
+  {id:23,nombre:"Fernando",tel:"",email:"",dir:"Montmesa",estado:"rojo",fechaFuturo:"",comercial:"luis",fotos:[],pres:[],hist:[{f:"13/04/2026",t:"No contrata por ahora",nota:false}]}
 ];
 
-var saved=localStorage.getItem('soresca_v3');
-if(saved){try{clientes=JSON.parse(saved)}catch(e){}}
-var savedOjo=localStorage.getItem('soresca_ojo');
-if(savedOjo) ocultoResumen=savedOjo==='1';
+// Load saved data
+(function(){
+  try{var s=localStorage.getItem('sc_v4');if(s)clientes=JSON.parse(s)}catch(e){}
+})();
 
-function save(){localStorage.setItem('soresca_v3',JSON.stringify(clientes))}
-function fmtE(n){return(+n).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
+// ===================== UTILS =====================
+function save(){localStorage.setItem('sc_v4',JSON.stringify(clientes))}
+function E(id){return document.getElementById(id)}
+function fmtE(n){return(+n||0).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
 function ini(n){var p=n.trim().split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.substring(0,2).toUpperCase()}
-function totalP(c){return c.pres.reduce(function(s,p){return s+(+p.imp||0)},0)}
+function totalP(c){return(c.pres||[]).reduce(function(s,p){return s+(+p.imp||0)},0)}
 function badgeL(e){if(e==='verde')return '🟢 Contrata';if(e==='rojo')return '🔴 No contrata';if(e==='naranja')return '🟠 Seguimiento';if(e==='azul')return '🔵 Futuro';return '🟡 Nuevo'}
-function cls(e){if(e==='verde')return 've';if(e==='rojo')return 'ro';if(e==='naranja')return 'na';if(e==='azul')return 'az';return 'am'}
-function now(){var d=new Date();return d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear()+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
-function diasR(f){if(!f)return null;var h=new Date();h.setHours(0,0,0,0);var o=new Date(f);o.setHours(0,0,0,0);return Math.round((o-h)/(864e5))}
-function ocultar(v){return ocultoResumen?'<span class="res-oculto">••••</span>':'<span class="res-val" style="color:'+v[1]+'">'+v[0]+'</span>'}
+function clsE(e){if(e==='verde')return 've';if(e==='rojo')return 'ro';if(e==='naranja')return 'na';if(e==='azul')return 'az';return 'am'}
+function nowStr(){var d=new Date();return d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear()+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+function diasR(f){if(!f)return null;var h=new Date();h.setHours(0,0,0,0);var o=new Date(f);o.setHours(0,0,0,0);return Math.round((o-h)/86400000)}
+function getC(id){return clientes.find(function(x){return x.id===id})}
 
-function toggleOjo(){
-  ocultoResumen=!ocultoResumen;
-  localStorage.setItem('soresca_ojo',ocultoResumen?'1':'0');
-  renderResumen();
-  updateStats();
+// ===================== RENDER =====================
+function setTab(el){
+  tabActual = el.dataset.tab;
+  abierto = null;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');
+  renderList();
 }
 
-function renderAlertas(){
-  var c2=document.getElementById('alertas-container');
-  var al=clientes.filter(function(c){if(c.estado!=='azul'||!c.fechaFuturo)return false;var d=diasR(c.fechaFuturo);return d!==null&&d<=7});
-  if(!al.length){c2.innerHTML='';return}
-  c2.innerHTML='<div class="alertas">'+al.map(function(c){
-    var d=diasR(c.fechaFuturo);var ec=d<=0;
-    return '<div class="alerta'+(ec?'':' pronto')+'"><div class="alerta-txt">'+(ec?'🔔 ¡LLAMA AHORA a '+c.nombre+'! Fecha alcanzada':'⏰ Esta semana: llama a '+c.nombre+' ('+d+' días)')+'</div><button class="alerta-btn" onclick="abrirC('+c.id+')">'+(c.tel?'Llamar':'Ver')+'</button></div>';
-  }).join('')+'</div>';
+function updateHeader(){
+  var cL=clientes.filter(function(c){return c.estado==='verde'&&c.comercial!=='cristian'});
+  var cC=clientes.filter(function(c){return c.estado==='verde'&&c.comercial==='cristian'});
+  var tL=cL.reduce(function(s,c){return s+totalP(c)*0.04},0);
+  var tC=cC.reduce(function(s,c){return s+totalP(c)*0.02},0);
+  var oculto=ojoOculto;
+  E('com-luis').textContent=oculto?'••••':fmtE(tL);
+  E('com-cris').textContent=oculto?'••••':fmtE(tC);
+  E('bl-luis').innerHTML=oculto?'<div class="b-item" style="color:#ccc">Oculto</div>':(cL.length?cL.map(function(c){return '<div class="b-item">'+c.nombre+(totalP(c)>0?' · '+fmtE(totalP(c)*0.04):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos</div>');
+  E('bl-cris').innerHTML=oculto?'<div class="b-item" style="color:#ccc">Oculto</div>':(cC.length?cC.map(function(c){return '<div class="b-item">'+c.nombre+(totalP(c)>0?' · '+fmtE(totalP(c)*0.02):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos</div>');
+  E('s-am').textContent=clientes.filter(function(c){return c.estado==='amarillo'}).length;
+  E('s-na').textContent=clientes.filter(function(c){return c.estado==='naranja'}).length;
+  E('s-ve').textContent=clientes.filter(function(c){return c.estado==='verde'}).length;
+  E('s-ro').textContent=clientes.filter(function(c){return c.estado==='rojo'}).length;
+  E('s-az').textContent=clientes.filter(function(c){return c.estado==='azul'}).length;
 }
 
-function abrirC(id){abierto=id;tabActual='todos';document.querySelectorAll('.tab').forEach(function(x,i){x.classList.toggle('active',i===0)});render();setTimeout(function(){var el=document.getElementById('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},100)}
-
-function updateStats(){
-  var contr=clientes.filter(function(c){return c.estado==='verde'});
-  var contrLuis=contr.filter(function(c){return c.comercial!=='cristian'});
-  var contrCris=contr.filter(function(c){return c.comercial==='cristian'});
-  var tl=contrLuis.reduce(function(s,c){return s+totalP(c)*0.04},0);
-  var tc=contrCris.reduce(function(s,c){return s+totalP(c)*0.02},0);
-  if(ocultoResumen){
-    document.getElementById('com-luis').textContent='••••';
-    document.getElementById('com-cris').textContent='••••';
-    document.getElementById('bl-luis').innerHTML='<div class="b-item" style="color:#ccc">Oculto</div>';
-    document.getElementById('bl-cris').innerHTML='<div class="b-item" style="color:#ccc">Oculto</div>';
-  }else{
-    document.getElementById('com-luis').textContent=fmtE(tl);
-    document.getElementById('com-cris').textContent=fmtE(tc);
-    var bll=document.getElementById('bl-luis');
-    var blc=document.getElementById('bl-cris');
-    bll.innerHTML=contrLuis.length?contrLuis.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.04):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos Solo Luis</div>';
-    blc.innerHTML=contrCris.length?contrCris.map(function(c){var t=totalP(c);return '<div class="b-item">'+c.nombre+(t>0?' · '+fmtE(t*0.02):'')+'</div>'}).join(''):'<div class="b-item" style="color:#bbb">Sin contratos con Cristian</div>';
-  }
-  document.getElementById('s-am').textContent=clientes.filter(function(c){return c.estado==='amarillo'}).length;
-  document.getElementById('s-na').textContent=clientes.filter(function(c){return c.estado==='naranja'}).length;
-  document.getElementById('s-ve').textContent=clientes.filter(function(c){return c.estado==='verde'}).length;
-  document.getElementById('s-ro').textContent=clientes.filter(function(c){return c.estado==='rojo'}).length;
-  document.getElementById('s-az').textContent=clientes.filter(function(c){return c.estado==='azul'}).length;
-}
-
-function renderResumen(){
-  var activos=clientes.filter(function(c){return c.estado==='amarillo'||c.estado==='naranja'||c.estado==='azul'});
-  var tA=activos.reduce(function(s,c){return s+totalP(c)},0);
+function updateResumen(){
+  var act=clientes.filter(function(c){return c.estado==='amarillo'||c.estado==='naranja'||c.estado==='azul'});
+  var tA=act.reduce(function(s,c){return s+totalP(c)},0);
   var tC=clientes.filter(function(c){return c.estado==='verde'}).reduce(function(s,c){return s+totalP(c)},0);
-  var box=document.getElementById('resumen-box');
-  if(tA===0&&tC===0){box.innerHTML='';return}
   var tLuis=clientes.filter(function(c){return c.estado==='verde'&&c.comercial!=='cristian'}).reduce(function(s,c){return s+totalP(c)},0);
   var tCris=clientes.filter(function(c){return c.estado==='verde'&&c.comercial==='cristian'}).reduce(function(s,c){return s+totalP(c)},0);
-  var ojo=ocultoResumen?'👁️‍🗨️':'👁️';
-  box.innerHTML='<div class="resumen">'+
-    '<div class="resumen-header"><span class="resumen-titulo">Resumen financiero</span><button class="ojo-btn" onclick="toggleOjo()" title="Mostrar/ocultar">'+ojo+'</button></div>'+
-    '<div class="resumen-grid">'+
-      '<div class="res-item"><div class="res-label">Pendiente</div>'+ocultar([fmtE(tA),'#e65100'])+'</div>'+
-      '<div class="res-item"><div class="res-label">Cerrado</div>'+ocultar([fmtE(tC),'#2e7d32'])+'</div>'+
-      '<div class="res-item"><div class="res-label">Solo Luis (4%)</div>'+ocultar([fmtE(tLuis*0.04),'#1976D2'])+'</div>'+
-      '<div class="res-item"><div class="res-label">Luis+Cristian (2%)</div>'+ocultar([fmtE(tCris*0.02),'#7b1fa2'])+'</div>'+
-    '</div></div>';
+  var box=E('resumen-wrap');
+  if(tA===0&&tC===0){box.innerHTML='';return}
+  function v(val,color){return ojoOculto?'<div class="res-oculto">••••</div>':'<div class="res-val" style="color:'+color+'">'+fmtE(val)+'</div>'}
+  box.innerHTML='<div class="resumen-wrap"><div class="resumen-header"><span class="resumen-titulo">Resumen</span><button class="ojo-btn" onclick="toggleOjo()">'+(ojoOculto?'👁️‍🗨️':'👁️')+'</button></div><div class="resumen-grid"><div class="res-item"><div class="res-label">Pendiente</div>'+v(tA,'#e65100')+'</div><div class="res-item"><div class="res-label">Cerrado</div>'+v(tC,'#2e7d32')+'</div><div class="res-item"><div class="res-label">Solo Luis</div>'+v(tLuis*0.04,'#1976D2')+'</div><div class="res-item"><div class="res-label">+Cristian</div>'+v(tCris*0.02,'#7b1fa2')+'</div></div></div>';
 }
 
-function setTab(t,el){tabActual=t;abierto=null;document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});el.classList.add('active');render()}
-
-function actualizarImporte(cid,pidx,val){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.pres[pidx]) return;
-  var n=parseFloat(val.replace(',','.').replace(/[^\d.]/g,''))||0;
-  c.pres[pidx].imp=n;
-  save();
-  updateStats();
-  renderResumen();
-  renderAlertas();
-  var el=document.getElementById('com-p-'+cid+'-'+pidx);
-  if(el) el.textContent='Luis: '+fmtE(n*0.04)+' · +Cristian: '+fmtE(n*0.02);
-  var tot=totalP(c);
-  var tb=document.getElementById('total-'+cid);
-  if(tb) tb.innerHTML='<div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(tot)+'</div><div class="v2">Luis: '+fmtE(tot*0.04)+' · Con Cristian: '+fmtE(tot*0.02)+'</div></div>';
+function updateAlertas(){
+  var al=clientes.filter(function(c){if(c.estado!=='azul'||!c.fechaFuturo)return false;var d=diasR(c.fechaFuturo);return d!==null&&d<=7});
+  if(!al.length){E('alertas-box').innerHTML='';return}
+  E('alertas-box').innerHTML='<div class="alertas">'+al.map(function(c){var d=diasR(c.fechaFuturo);var ec=d<=0;return '<div class="alerta'+(ec?'':' pronto')+'"><div class="alerta-txt">'+(ec?'🔔 ¡LLAMA AHORA a '+c.nombre+'!':'⏰ Esta semana: llama a '+c.nombre+' ('+d+' días)')+'</div><button class="alerta-btn" onclick="jumpTo('+c.id+')">'+(c.tel?'Llamar':'Ver')+'</button></div>'}).join('')+'</div>';
 }
 
-function render(){
-  renderAlertas();
-  updateStats();
-  renderResumen();
-  var q=(document.getElementById('search').value||'').toLowerCase();
+function jumpTo(id){
+  abierto=id;tabActual='todos';
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',i===0)});
+  renderList();
+  setTimeout(function(){var el=E('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},100);
+}
+
+function renderList(){
+  updateHeader();
+  updateResumen();
+  updateAlertas();
+  var q=(E('search').value||'').toLowerCase();
   var lista=clientes.filter(function(c){
-    if(tabActual!=='todos'&&c.estado!==tabActual) return false;
-    if(q&&!(c.nombre+' '+c.dir+(c.tel||'')+(c.email||'')).toLowerCase().includes(q)) return false;
+    if(tabActual!=='todos'&&c.estado!==tabActual)return false;
+    if(q&&!(c.nombre+' '+c.dir+(c.tel||'')+(c.email||'')).toLowerCase().includes(q))return false;
     return true;
   });
   lista.sort(function(a,b){return ORDEN.indexOf(a.estado)-ORDEN.indexOf(b.estado)});
-  var el=document.getElementById('list');
-  if(!lista.length){el.innerHTML='<div class="empty">No hay clientes en esta categoría</div>';return}
+  var el=E('list');
+  if(!lista.length){el.innerHTML='<div class="empty">No hay clientes aquí</div>';return}
+
   el.innerHTML=lista.map(function(c){
+    var cl=clsE(c.estado);
     var isOpen=abierto===c.id;
-    var cl=cls(c.estado);
-    var total=totalP(c);
-    var sub=c.dir+(c.tel?' · '+c.tel:'');
     var dias=c.estado==='azul'&&c.fechaFuturo?diasR(c.fechaFuturo):null;
     var caHtml='';
-    if(dias!==null){var caC=dias<=0?'urgente':dias<=7?'pronto':'';caHtml='<div class="cuenta-atras '+caC+'">'+(dias<=0?'¡Hoy!':dias+' días')+'</div>'}
-    var presHtml=c.pres.length?c.pres.map(function(p,i){
-      return '<div class="pres-item">'+
-        '<div class="pres-top">'+
-          '<div><div class="pres-ref">Ref. '+p.ref+'</div><div class="pres-desc">'+p.desc+'</div></div>'+
-          (p.pdf?'<button class="doc-open-btn" onclick="abrirPDFPresupuesto('+c.id+','+i+')">📄 Ver PDF</button>':'')+
+    if(dias!==null){var cc=dias<=0?'urgente':dias<=7?'pronto':'ok';caHtml='<span class="cuenta-atras '+cc+'">'+(dias<=0?'¡Hoy!':dias+'d')+'</span>'}
+    var comTag='<span class="com-tag '+(c.comercial==='cristian'?'cris':'luis')+'">'+(c.comercial==='cristian'?'Luis+Cris':'Solo Luis')+'</span>';
+
+    var detailHtml='';
+    if(isOpen){
+      var total=totalP(c);
+      // Presupuestos
+      var presHtml=(c.pres&&c.pres.length)?c.pres.map(function(p,i){
+        return '<div class="pres-item">'+
+          '<div class="pres-ref">Ref. '+p.ref+'</div>'+
+          '<div class="pres-desc">'+p.desc+'</div>'+
+          '<div class="pres-row">'+
+            '<input class="pres-imp-input" type="number" value="'+(+p.imp||0)+'" onchange="updImp('+c.id+','+i+',this.value)" oninput="updImp('+c.id+','+i+',this.value)" placeholder="0">'+
+            '<span class="pres-com" id="pcom-'+c.id+'-'+i+'">Luis: '+fmtE((+p.imp||0)*0.04)+' · Cris: '+fmtE((+p.imp||0)*0.02)+'</span>'+
+            (p.pdf?'<button class="pres-pdf-btn" onclick="verPDF('+c.id+','+i+')">📄 Ver PDF</button>':'')+
+            '<button class="pres-del-btn" onclick="delPres('+c.id+','+i+')">🗑️</button>'+
+          '</div>'+
+        '</div>';
+      }).join(''):'<div style="font-size:12px;color:#bbb;padding:4px 0">Sin presupuestos</div>';
+
+      var totalHtml=total>0?'<div class="total-box"><div class="total-lbl">Total · comisión</div><div class="total-right"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'';
+
+      // Historial
+      var histHtml=(c.hist&&c.hist.length)?c.hist.slice().reverse().map(function(h){
+        return '<div class="hist-item '+(h.nota?'nota':'normal')+'"><div class="hist-fecha">'+h.f+'</div><div class="hist-txt '+(h.nota?'nota-txt':'')+'">'+h.t+'</div></div>';
+      }).join(''):'<div style="font-size:12px;color:#bbb">Sin registros</div>';
+
+      // Fotos
+      var fotosHtml=(c.fotos&&c.fotos.length)?c.fotos.map(function(f,fi){
+        return '<img class="foto-thumb" src="'+f+'" onclick="verFoto('+c.id+','+fi+')">';
+      }).join(''):'';
+
+      // Temporizador azul
+      var tempHtml='';
+      if(c.estado==='azul'&&c.fechaFuturo&&dias!==null){
+        var fd=new Date(c.fechaFuturo);
+        var fs=fd.getDate().toString().padStart(2,'0')+'/'+(fd.getMonth()+1).toString().padStart(2,'0')+'/'+fd.getFullYear();
+        tempHtml='<div class="temporiz"><div><div class="temp-lbl">📅 Fecha estimada compra</div><div class="temp-fecha">'+fs+'</div></div><div style="text-align:right"><div class="temp-dias'+(dias<=0?' cero':dias<=7?' poco':'')+'">'+(dias<=0?'¡HOY!':dias)+'</div><div class="temp-dias-lbl">'+(dias>0?'días':'fecha alcanzada')+'</div></div></div>';
+      }
+
+      detailHtml='<div class="detail open">'+
+        (c.tel?'<a class="btn-llamar" href="tel:'+c.tel+'">📞 Llamar a '+c.nombre+'</a>':'')+
+        '<div class="det-grid">'+
+          '<div><div class="det-lbl">Teléfono</div><div class="det-val">'+(c.tel?'<a href="tel:'+c.tel+'">'+c.tel+'</a>':'—')+'</div></div>'+
+          '<div><div class="det-lbl">Email</div><div class="det-val">'+(c.email?'<a href="mailto:'+c.email+'">'+c.email+'</a>':'—')+'</div></div>'+
+          '<div style="grid-column:1/-1"><div class="det-lbl">Dirección</div><div class="det-val">'+c.dir+'</div></div>'+
         '</div>'+
-        '<div class="pres-edit-row">'+
-          '<label>Importe €</label>'+
-          '<input class="pres-imp-input" type="number" value="'+((+p.imp)||0)+'" onchange="actualizarImporte('+c.id+','+i+',this.value)" oninput="actualizarImporte('+c.id+','+i+',this.value)" placeholder="0">'+
-          '<button class="doc-del-btn" onclick="eliminarPresupuesto('+c.id+','+i+')" title="Eliminar presupuesto">🗑️</button>'+
+        tempHtml+
+        '<div class="section-title">Presupuestos</div>'+
+        presHtml+totalHtml+
+        '<label class="add-pres-btn"><input type="file" accept=".pdf,application/pdf" onchange="leerPDFPres('+c.id+',event)">📄 Añadir presupuesto desde PDF</label>'+
+        '<div class="section-title">📷 Fotos</div>'+
+        '<div class="foto-add-row">'+
+          '<label class="foto-btn cam"><input type="file" accept="image/*" capture="environment" onchange="addFoto('+c.id+',event)">📷 Cámara</label>'+
+          '<label class="foto-btn gal"><input type="file" accept="image/*" onchange="addFoto('+c.id+',event)">🖼️ Galería</label>'+
         '</div>'+
-        '<div id="com-p-'+c.id+'-'+i+'" class="pres-com-badge" style="font-size:11px;color:#888;margin-top:5px">Luis: '+fmtE((+p.imp||0)*0.04)+' · +Cristian: '+fmtE((+p.imp||0)*0.02)+'</div>'+
+        '<div class="fotos-grid">'+fotosHtml+'</div>'+
+        '<div class="section-title">Historial y notas</div>'+
+        '<div class="hist-list">'+histHtml+'</div>'+
+        '<div class="nota-area">'+
+          '<div class="rec-ind" id="ri-'+c.id+'"><div class="dot"></div>Grabando... habla ahora</div>'+
+          '<div class="nota-row">'+
+            '<button class="mic-btn" id="mic-'+c.id+'" onclick="toggleMic('+c.id+')" title="Grabar voz">🎙️</button>'+
+            '<textarea id="ta-'+c.id+'" placeholder="Escribe o graba una nota..."></textarea>'+
+          '</div>'+
+          '<div class="est-btns">'+
+            ['amarillo','naranja','verde','rojo','azul'].map(function(e){return '<button class="est-btn '+clsE(e)+(c.estado===e?' sel':'')+'" onclick="cambEst('+c.id+',\''+e+'\')">'+badgeL(e)+'</button>'}).join('')+
+          '</div>'+
+          (c.estado==='azul'?'<div class="fecha-fut"><label>Fecha estimada compra</label><input type="date" value="'+(c.fechaFuturo||'')+'" onchange="cambFecha('+c.id+',this.value)"></div>':'')+
+          '<button class="nota-save-btn" onclick="saveNota('+c.id+')">💾 Guardar nota</button>'+
+        '</div>'+
       '</div>';
-    }).join(''):'<div style="font-size:12px;color:#bbb;padding:4px 0">Sin presupuesto registrado</div>';
-    var histHtml=c.hist.slice().reverse().map(function(h){return '<div class="hist-item"><div class="hist-fecha">'+h.f+'</div><div class="hist-txt">'+h.t+'</div></div>'}).join('');
-    var tempHtml='';
-    if(c.estado==='azul'&&c.fechaFuturo&&dias!==null){
-      var fd=new Date(c.fechaFuturo);
-      var fs=fd.getDate().toString().padStart(2,'0')+'/'+(fd.getMonth()+1).toString().padStart(2,'0')+'/'+fd.getFullYear();
-      tempHtml='<div class="temporiz"><div><div class="temp-label">📅 Fecha estimada compra</div><div class="temp-fecha">'+fs+'</div></div><div style="text-align:right"><div class="temp-dias'+(dias<=0?' cero':dias<=7?' poco':'')+'">'+(dias<=0?'¡HOY!':dias)+'</div><div class="temp-dias-lbl">'+(dias>0?'días restantes':'fecha alcanzada')+'</div></div></div>';
     }
+
     return '<div class="card '+cl+'" id="c-'+c.id+'">'+
-      '<div class="card-top-wrap">'+
-      '<div class="card-top" onclick="toggle('+c.id+')">'+
+      '<div class="card-header" onclick="toggle('+c.id+')">'+
         '<div class="av '+cl+'">'+ini(c.nombre)+'</div>'+
-        '<div class="card-info"><div class="card-name">'+c.nombre+'</div><div class="card-sub">'+sub+'</div></div>'+
-        '<div class="card-right">'+
-          '<span class="badge '+cl+'">'+badgeL(c.estado)+'</span>'+caHtml+'<span class="com-tag '+(c.comercial==='cristian'?'cris':'luis')+'">'+( c.comercial==='cristian'?'Luis+Cristian':'Solo Luis')+'</span>'+
-          '<div style="display:flex;gap:4px;margin-top:2px">'+'<button class="pencil-btn" onclick="event.stopPropagation();abrirEdicion('+c.id+')" title="Editar cliente">✏️</button>'+'<button class="trash-btn" onclick="event.stopPropagation();mostrarConfirm('+c.id+')" title="Eliminar cliente">🗑️</button>'+'</div>'+
+        '<div class="card-info">'+
+          '<div class="card-name">'+c.nombre+'</div>'+
+          '<div class="card-sub">'+(c.dir||'')+(c.tel?' · '+c.tel:'')+'</div>'+
+        '</div>'+
+        '<div class="card-actions">'+
+          '<span class="badge '+cl+'">'+badgeL(c.estado)+'</span>'+
+          '<div style="display:flex;gap:4px;align-items:center;margin-top:3px">'+
+            caHtml+comTag+
+            '<button class="ic-btn" onclick="event.stopPropagation();openEdit('+c.id+')" title="Editar">✏️</button>'+
+            '<button class="ic-btn" onclick="event.stopPropagation();showConfirm('+c.id+')" title="Eliminar">🗑️</button>'+
+          '</div>'+
         '</div>'+
       '</div>'+
-      '<div class="confirm-delete" id="confirm-'+c.id+'">'+
-        '<p>¿Eliminar a <b>'+c.nombre+'</b>? No se puede deshacer.</p>'+
-        '<div class="confirm-delete-btns">'+
-          '<button class="btn-confirm-si" onclick="eliminarCliente('+c.id+')">Sí, eliminar</button>'+
-          '<button class="btn-confirm-no" onclick="ocultarConfirm('+c.id+')">Cancelar</button>'+
+      '<div class="confirm-bar" id="conf-'+c.id+'">'+
+        '<p>¿Eliminar a '+c.nombre+'? No se puede deshacer.</p>'+
+        '<div class="confirm-bar-btns">'+
+          '<button class="btn-si" onclick="deleteCliente('+c.id+')">Sí, eliminar</button>'+
+          '<button class="btn-no" onclick="hideConfirm('+c.id+')">Cancelar</button>'+
         '</div>'+
       '</div>'+
-    '</div>'+
-      (isOpen?
-        '<div class="detail open">'+
-          (c.tel?'<a class="btn-llamar" href="tel:'+c.tel+'">📞 Llamar a '+c.nombre+'</a>':'')+
-          '<div class="det-row">'+
-            '<div class="det-field"><div class="lbl">Teléfono</div><div class="val">'+(c.tel?'<a href="tel:'+c.tel+'">'+c.tel+'</a>':'—')+'</div></div>'+
-            '<div class="det-field"><div class="lbl">Email</div><div class="val">'+(c.email?'<a href="mailto:'+c.email+'">'+c.email+'</a>':'—')+'</div></div>'+
-            '<div class="det-field" style="grid-column:1/-1"><div class="lbl">Dirección</div><div class="val">'+c.dir+'</div></div>'+
-          '</div>'+
-          tempHtml+
-          '<div class="pres-title">Presupuestos</div>'+presHtml+
-          '<label class="media-btn media-btn-pdf" style="margin-bottom:8px;border-radius:10px;padding:10px 12px;display:flex;gap:6px;align-items:center;width:100%">'+
-            '<input class="foto-input" type="file" accept=".pdf,application/pdf" onchange="leerPDFPresupuesto('+c.id+',event)">'+
-            '📄 Añadir presupuesto desde PDF'+
-          '</label>'+
-          (total>0?'<div class="total-box" id="total-'+c.id+'"><div class="lbl">Total · comisión estimada</div><div class="vals"><div class="v1">'+fmtE(total)+'</div><div class="v2">Luis: '+fmtE(total*0.04)+' · Con Cristian: '+fmtE(total*0.02)+'</div></div></div>':'')+
-          '<div class="fotos-section">'+
-          '<div class="fotos-title">📷 Fotos</div>'+
-          '<div class="media-add-row">'+
-            '<label class="media-btn media-btn-cam">'+
-              '<input class="foto-input" type="file" accept="image/*" capture="environment" onchange="añadirFoto('+c.id+',event)">'+
-              '📷 Cámara'+
-            '</label>'+
-            '<label class="media-btn media-btn-gal">'+
-              '<input class="foto-input" type="file" accept="image/*" onchange="añadirFoto('+c.id+',event)">'+
-              '🖼️ Galería'+
-            '</label>'+
-          '</div>'+
-          '<div class="fotos-grid">'+
-          (c.fotos&&c.fotos.length?c.fotos.map(function(foto,fi){
-            return '<img class="foto-thumb" src="'+foto+'" onclick="verFoto('+c.id+','+fi+')">';
-          }).join(''):'')+
-          '</div>'+
-        '</div>'+
-'<div class="hist-title">Historial de llamadas y notas</div>'+
-          '<div class="hist-list">'+(histHtml||'<div style="font-size:12px;color:#bbb">Sin registros aún</div>')+'</div>'+
-          '<div class="nota-area">'+
-            '<div class="nota-label">Añadir nota · cambiar estado</div>'+
-            '<div class="mic-row"><button class="mic-btn" id="mic-'+c.id+'" onclick="toggleMic('+c.id+')">'+
-              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>'+
-            '</button><textarea id="ta-'+c.id+'" placeholder="Resultado de llamada, nota importante..."></textarea></div>'+
-            '<div class="rec-ind" id="ri-'+c.id+'"><div class="dot"></div>Grabando...</div>'+
-            '<div class="est-btns">'+
-              '<button class="est-btn am'+(c.estado==='amarillo'?' sel':'')+'" onclick="cambEst('+c.id+',\'amarillo\')">🟡 Nuevo</button>'+
-              '<button class="est-btn na'+(c.estado==='naranja'?' sel':'')+'" onclick="cambEst('+c.id+',\'naranja\')">🟠 Seguimiento</button>'+
-              '<button class="est-btn ve'+(c.estado==='verde'?' sel':'')+'" onclick="cambEst('+c.id+',\'verde\')">🟢 Contrata</button>'+
-              '<button class="est-btn ro'+(c.estado==='rojo'?' sel':'')+'" onclick="cambEst('+c.id+',\'rojo\')">🔴 No contrata</button>'+
-              '<button class="est-btn az'+(c.estado==='azul'?' sel':'')+'" onclick="cambEst('+c.id+',\'azul\')">🔵 Futuro</button>'+
-            '</div>'+
-            (c.estado==='azul'?'<div class="fecha-futuro"><label>Fecha estimada de compra</label><input type="date" value="'+(c.fechaFuturo||'')+'" onchange="cambiarFecha('+c.id+',this.value)"></div>':'')+
-            '<div class="nota-btns"><button class="btn-save" onclick="guardarNota('+c.id+')">Guardar nota</button></div>'+
-          '</div>'+
-        '</div>'
-      :'')+
+      detailHtml+
     '</div>';
   }).join('');
 }
 
-function toggle(id){abierto=abierto===id?null:id;render();if(abierto){setTimeout(function(){var el=document.getElementById('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},80)}}
+// ===================== ACCIONES =====================
+function toggle(id){
+  abierto = abierto===id ? null : id;
+  renderList();
+  if(abierto){setTimeout(function(){var el=E('c-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},80)}
+}
+
+function toggleOjo(){ojoOculto=!ojoOculto;localStorage.setItem('ojo',ojoOculto?'1':'0');updateHeader();updateResumen()}
+
+function showConfirm(id){
+  document.querySelectorAll('.confirm-bar').forEach(function(el){el.classList.remove('show')});
+  var el=E('conf-'+id);if(el)el.classList.add('show');
+}
+function hideConfirm(id){var el=E('conf-'+id);if(el)el.classList.remove('show')}
+
+function deleteCliente(id){
+  clientes=clientes.filter(function(c){return c.id!==id});
+  if(abierto===id)abierto=null;
+  save();
+  renderList();
+}
 
 function cambEst(id,est){
-  var c=clientes.find(function(x){return x.id===id});
-  if(!c)return;
+  var c=getC(id);if(!c)return;
   c.estado=est;
   if(est==='azul'&&!c.fechaFuturo){var d=new Date();d.setMonth(d.getMonth()+2);c.fechaFuturo=d.toISOString().split('T')[0]}
-  c.hist.push({f:now(),t:'Estado: '+badgeL(est)});
-  save();abierto=id;render();
+  c.hist.push({f:nowStr(),t:'Estado: '+badgeL(est),nota:false});
+  save();abierto=id;renderList();
 }
+function cambFecha(id,val){var c=getC(id);if(!c)return;c.fechaFuturo=val;save();renderList()}
 
-function cambiarFecha(id,val){
-  var c=clientes.find(function(x){return x.id===id});
-  if(!c)return;
-  c.fechaFuturo=val;save();render();
-}
-
-function guardarNota(id){
-  var c=clientes.find(function(x){return x.id===id});
-  if(!c)return;
-  var txt=(document.getElementById('ta-'+id).value||'').trim();
+function saveNota(id){
+  var c=getC(id);if(!c)return;
+  var txt=(E('ta-'+id).value||'').trim();
   if(!txt){alert('Escribe una nota primero');return}
-  c.hist.push({f:now(),t:txt});
-  save();abierto=id;render();
+  c.hist.push({f:nowStr(),t:txt,nota:true});
+  save();abierto=id;renderList();
 }
 
-function abrirModal(){
-  document.getElementById('modal-bg').classList.add('open');
-  nuevoEst='amarillo';
-  ['am','na','ve','ro','az'].forEach(function(k){document.getElementById('neb-'+k).classList.remove('sel')});
-  document.getElementById('neb-am').classList.add('sel');
-  document.getElementById('fecha-futuro-modal').classList.remove('show');
-  var d=new Date();d.setMonth(d.getMonth()+2);
-  document.getElementById('n-fecha-futuro').value=d.toISOString().split('T')[0];
-}
-function cerrarModal(){document.getElementById('modal-bg').classList.remove('open')}
-
-function selNuevoEst(e){
-  nuevoEst=e;
-  var map={amarillo:'am',naranja:'na',verde:'ve',rojo:'ro',azul:'az'};
-  ['am','na','ve','ro','az'].forEach(function(k){document.getElementById('neb-'+k).classList.remove('sel')});
-  document.getElementById('neb-'+map[e]).classList.add('sel');
-  document.getElementById('fecha-futuro-modal').classList.toggle('show',e==='azul');
+function updImp(cid,idx,val){
+  var c=getC(cid);if(!c||!c.pres[idx])return;
+  var n=parseFloat(val)||0;
+  c.pres[idx].imp=n;
+  save();
+  var el=E('pcom-'+cid+'-'+idx);
+  if(el)el.textContent='Luis: '+fmtE(n*0.04)+' · Cris: '+fmtE(n*0.02);
+  updateHeader();updateResumen();
 }
 
-function cargarPDF(event){
-  var f=event.target.files[0];if(!f)return;
-  var ok=document.getElementById('pdf-ok');ok.style.display='block';
-  ok.textContent='✓ '+f.name+' — rellena los campos manualmente';
+function delPres(cid,idx){
+  var c=getC(cid);if(!c)return;
+  if(!confirm('¿Eliminar este presupuesto?'))return;
+  c.pres.splice(idx,1);save();abierto=cid;renderList();
 }
 
-function guardarNuevo(){
-  var nombre=(document.getElementById('n-nombre').value||'').trim();
-  if(!nombre){alert('El nombre es obligatorio');return}
-  var imp=parseFloat((document.getElementById('n-imp').value||'').replace(',','.'))||0;
-  var ref=(document.getElementById('n-ref').value||'').trim();
-  var fechaF=nuevoEst==='azul'?document.getElementById('n-fecha-futuro').value:'';var comVal=nuevoComercial||'luis';
-  var c={id:nextId++,nombre:nombre,comercial:comVal,tel:(document.getElementById('n-tel').value||'').trim(),email:(document.getElementById('n-email').value||'').trim(),dir:(document.getElementById('n-dir').value||'').trim(),estado:nuevoEst,fechaFuturo:fechaF,fotos:[],docs:[],pres:[],hist:[]};
-  if(ref||imp>0) c.pres.push({ref:ref||'—',imp:imp,desc:(document.getElementById('n-desc').value||'').trim()||'Presupuesto'});
-  var nota=(document.getElementById('n-nota').value||'').trim();
-  c.hist.push({f:now(),t:nota||'Cliente añadido'});
-  clientes.unshift(c);
-  ['n-nombre','n-tel','n-email','n-dir','n-ref','n-imp','n-desc','n-nota'].forEach(function(id){document.getElementById(id).value=''});
-  document.getElementById('pdf-ok').style.display='none';
-  save();cerrarModal();abierto=c.id;render();
+function verPDF(cid,idx){
+  var c=getC(cid);if(!c||!c.pres[idx]||!c.pres[idx].pdf)return;
+  // Open PDF in new window/tab - works on iPhone Safari
+  var w=window.open();
+  if(w){
+    w.document.write('<html><head><title>'+c.pres[idx].ref+'</title></head><body style="margin:0;padding:0;background:#000"><embed src="'+c.pres[idx].pdf+'" type="application/pdf" width="100%" height="100%" style="position:fixed;top:0;left:0;right:0;bottom:0"><p style="color:#fff;text-align:center;padding:20px">Si no se visualiza el PDF, <a href="'+c.pres[idx].pdf+'" download="'+c.pres[idx].pdfname+'" style="color:#90caf9">pulsa aquí para descargarlo</a></p></body></html>');
+    w.document.close();
+  }
 }
 
+// FOTOS
+function addFoto(cid,event){
+  var file=event.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    var c=getC(cid);if(!c)return;
+    if(!c.fotos)c.fotos=[];
+    c.fotos.push(e.target.result);
+    save();abierto=cid;renderList();
+  };
+  r.readAsDataURL(file);
+}
+
+function verFoto(cid,idx){
+  var c=getC(cid);if(!c||!c.fotos[idx])return;
+  fvCid=cid;fvIdx=idx;
+  E('fv-img').src=c.fotos[idx];
+  E('foto-viewer').classList.add('open');
+}
+function closeFotoViewer(){E('foto-viewer').classList.remove('open');E('fv-img').src='';fvCid=null;fvIdx=null}
+function deleteFotoViewer(){
+  if(fvCid===null||fvIdx===null)return;
+  var c=getC(fvCid);if(!c)return;
+  c.fotos.splice(fvIdx,1);save();
+  closeFotoViewer();abierto=fvCid;renderList();
+}
+
+// PDF PRESUPUESTO
+function leerPDFPres(cid,event){
+  var file=event.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    E('pres-cid').value=cid;
+    E('pres-pdf-data').value=e.target.result;
+    E('pres-pdf-name-hidden') && (E('pres-pdf-name-hidden').value=file.name);
+    var tag=E('pres-modal-tag');tag.textContent='📄 '+file.name;tag.style.display='inline-block';
+    var ref=file.name.replace(/\.pdf$/i,'');
+    E('pres-ref').value=ref;
+    E('pres-imp').value='';E('pres-desc').value='';
+    openModal('pres');
+  };
+  r.readAsDataURL(file);
+}
+
+function guardarPres(){
+  var cid=parseInt(E('pres-cid').value);
+  var c=getC(cid);if(!c)return;
+  var ref=(E('pres-ref').value||'').trim()||'—';
+  var imp=parseFloat(E('pres-imp').value||0)||0;
+  var desc=(E('pres-desc').value||'').trim()||'Presupuesto PDF';
+  var pdfData=E('pres-pdf-data').value;
+  var pdfName=E('pres-modal-tag').textContent.replace('📄 ','');
+  if(!c.pres)c.pres=[];
+  c.pres.push({ref:ref,imp:imp,desc:desc,pdf:pdfData||null,pdfname:pdfName});
+  c.hist.push({f:nowStr(),t:'Presupuesto PDF añadido: '+ref+(imp>0?' · '+fmtE(imp):''),nota:false});
+  save();closeModal('pres');abierto=cid;renderList();
+}
+
+// MICRÓFONO - transcripción con Web Speech API
 function toggleMic(id){
-  if(grabando){if(mediaRec)mediaRec.stop();grabando=false;return}
+  if(grabando){
+    if(mediaRec)mediaRec.stop();
+    grabando=false;
+    var btn=E('mic-'+id);if(btn)btn.classList.remove('rec');
+    var ind=E('ri-'+id);if(ind)ind.classList.remove('show');
+    return;
+  }
+  // Intentar Web Speech API para transcripción real
+  var SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SpeechRecognition){
+    var rec=new SpeechRecognition();
+    rec.lang='es-ES';
+    rec.continuous=false;
+    rec.interimResults=false;
+    var btn=E('mic-'+id);
+    var ind=E('ri-'+id);
+    if(btn)btn.classList.add('rec');
+    if(ind)ind.classList.add('show');
+    grabando=true;
+    rec.onresult=function(e){
+      var txt=e.results[0][0].transcript;
+      var ta=E('ta-'+id);
+      if(ta)ta.value=(ta.value?ta.value+' ':'')+txt;
+      grabando=false;
+      if(btn)btn.classList.remove('rec');
+      if(ind)ind.classList.remove('show');
+    };
+    rec.onerror=function(){
+      grabando=false;
+      if(btn)btn.classList.remove('rec');
+      if(ind)ind.classList.remove('show');
+      alert('No se pudo transcribir. Escribe la nota manualmente.');
+    };
+    rec.onend=function(){
+      grabando=false;
+      if(btn)btn.classList.remove('rec');
+      if(ind)ind.classList.remove('show');
+    };
+    rec.start();
+    return;
+  }
+  // Fallback: solo grabación de audio
   if(!navigator.mediaDevices){alert('Escribe la nota manualmente');return}
   navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
     var chunks=[];
-    mediaRec=new MediaRecorder(stream);grabando=true;
-    var btn=document.getElementById('mic-'+id);var ind=document.getElementById('ri-'+id);
+    mediaRec=new MediaRecorder(stream);
+    grabando=true;
+    var btn=E('mic-'+id);var ind=E('ri-'+id);
     if(btn)btn.classList.add('rec');if(ind)ind.classList.add('show');
     mediaRec.ondataavailable=function(e){chunks.push(e.data)};
     mediaRec.onstop=function(){
       grabando=false;stream.getTracks().forEach(function(t){t.stop()});
       if(btn)btn.classList.remove('rec');if(ind)ind.classList.remove('show');
-      var ta=document.getElementById('ta-'+id);
-      if(ta){ta.placeholder='Grabación lista — escribe aquí lo que dijiste';ta.focus()}
+      var ta=E('ta-'+id);
+      if(ta){ta.focus();ta.placeholder='Grabación hecha — escribe aquí lo que dijiste'}
     };
     mediaRec.start();
     setTimeout(function(){if(grabando&&mediaRec)mediaRec.stop()},30000);
   }).catch(function(){alert('No se pudo acceder al micrófono')});
 }
 
+// ===================== MODALES =====================
+function openModal(name){E('modal-'+name).classList.add('open')}
+function closeModal(name){E('modal-'+name).classList.remove('open')}
 
-
-
-var fotoViewerCid=null, fotoViewerIdx=null;
-
-
-
-function abrirPDFPresupuesto(cid, idx){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.pres||!c.pres[idx]||!c.pres[idx].pdf) return;
-  var link=document.createElement('a');
-  link.href=c.pres[idx].pdf;
-  link.download=c.pres[idx].pdfname||'presupuesto.pdf';
-  link.click();
+function selCom(prefix,val){
+  modalComercial[prefix]=val;
+  E(prefix+'-com-luis').className='com-opt'+(val==='luis'?' sel-luis':'');
+  E(prefix+'-com-cris').className='com-opt'+(val==='cristian'?' sel-cris':'');
 }
-function eliminarPresupuesto(cid, idx){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.pres) return;
-  if(!confirm('¿Eliminar este presupuesto?')) return;
-  c.pres.splice(idx,1);
-  save(); abierto=cid; render();
+function selEstModal(prefix,est){
+  modalEstado[prefix]=est;
+  E(prefix+'-est-btns').querySelectorAll('.est-btn').forEach(function(b){b.classList.remove('sel')});
+  E(prefix+'-est-btns').querySelectorAll('.est-btn').forEach(function(b){
+    if(b.textContent.includes(badgeL(est).split(' ')[1]||est))b.classList.add('sel');
+  });
+  var fm=E(prefix+'-fecha-modal');if(fm)fm.classList.toggle('show',est==='azul');
 }
-function leerPDFPresupuesto(cid, event){
-  var file=event.target.files[0];
-  if(!file) return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var c=clientes.find(function(x){return x.id===cid});
-    if(!c) return;
-    // Extract reference from filename e.g. "2026.01.123.pdf" -> "2026.01.123"
+
+// Leer PDF en modal nuevo cliente (solo metadata)
+function leerPDFNuevo(event){
+  var file=event.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    E('nuevo-pdf-data').value=e.target.result;
+    E('nuevo-pdf-name').value=file.name;
     var ref=file.name.replace(/\.pdf$/i,'');
-    // Show modal to confirm/edit presupuesto data before adding
-    abrirModalPresupuesto(cid, ref, file.name, e.target.result);
+    if(!E('nuevo-ref').value)E('nuevo-ref').value=ref;
+    var ok=E('nuevo-pdf-ok');ok.style.display='block';ok.textContent='✓ '+file.name;
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
 
-var presModalCid=null;
-function abrirModalPresupuesto(cid, ref, filename, pdfData){
-  presModalCid=cid;
-  document.getElementById('pm-ref').value=ref||'';
-  document.getElementById('pm-imp').value='';
-  document.getElementById('pm-desc').value='';
-  document.getElementById('pm-filename').textContent=filename;
-  document.getElementById('pm-pdfdata').value=pdfData||'';
-  document.getElementById('pres-modal-bg').classList.add('open');
-}
-function cerrarModalPresupuesto(){
-  document.getElementById('pres-modal-bg').classList.remove('open');
-  presModalCid=null;
-}
-function guardarPresupuestoModal(){
-  var c=clientes.find(function(x){return x.id===presModalCid});
-  if(!c) return;
-  var ref=(document.getElementById('pm-ref').value||'').trim()||'—';
-  var imp=parseFloat((document.getElementById('pm-imp').value||'').replace(',','.'))||0;
-  var desc=(document.getElementById('pm-desc').value||'').trim()||'Presupuesto PDF';
-  var pdfData=document.getElementById('pm-pdfdata').value;
-  var filename=document.getElementById('pm-filename').textContent;
-  if(!c.pres) c.pres=[];
-  c.pres.push({ref:ref, imp:imp, desc:desc, pdf:pdfData, pdfname:filename});
-  c.hist.push({f:now(), t:'Presupuesto PDF añadido: ref. '+ref+(imp>0?' · '+fmtE(imp):'')});
-  save();
-  cerrarModalPresupuesto();
-  abierto=presModalCid||c.id;
-  render();
+function guardarNuevo(){
+  var nombre=(E('nuevo-nombre').value||'').trim();
+  if(!nombre){alert('El nombre es obligatorio');return}
+  var imp=parseFloat(E('nuevo-imp').value||0)||0;
+  var ref=(E('nuevo-ref').value||'').trim();
+  var est=modalEstado['nuevo']||'amarillo';
+  var com=modalComercial['nuevo']||'luis';
+  var fechaF=est==='azul'?(E('nuevo-fecha-futuro').value||''):'';
+  if(!fechaF&&est==='azul'){var d=new Date();d.setMonth(d.getMonth()+2);fechaF=d.toISOString().split('T')[0]}
+  var c={id:nextId++,nombre:nombre,tel:(E('nuevo-tel').value||'').trim(),email:(E('nuevo-email').value||'').trim(),dir:(E('nuevo-dir').value||'').trim(),estado:est,fechaFuturo:fechaF,comercial:com,fotos:[],pres:[],hist:[{f:nowStr(),t:'Cliente añadido',nota:false}]};
+  var pdfData=E('nuevo-pdf-data').value;
+  var pdfName=E('nuevo-pdf-name').value;
+  if(ref||imp>0)c.pres.push({ref:ref||'—',imp:imp,desc:(E('nuevo-desc').value||'').trim()||'Presupuesto',pdf:pdfData||null,pdfname:pdfName||''});
+  clientes.unshift(c);
+  // Reset
+  ['nuevo-nombre','nuevo-tel','nuevo-email','nuevo-dir','nuevo-ref','nuevo-imp','nuevo-desc','nuevo-pdf-data','nuevo-pdf-name'].forEach(function(id){E(id).value=''});
+  E('nuevo-pdf-ok').style.display='none';
+  modalComercial['nuevo']='luis';modalEstado['nuevo']='amarillo';
+  selCom('nuevo','luis');
+  save();closeModal('nuevo');abierto=c.id;renderList();
 }
 
-function añadirFoto(cid, event){
-  var file=event.target.files[0];
-  if(!file) return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    var c=clientes.find(function(x){return x.id===cid});
-    if(!c) return;
-    if(!c.fotos) c.fotos=[];
-    c.fotos.push(e.target.result);
-    save();
-    abierto=cid;
-    render();
-  };
-  reader.readAsDataURL(file);
-}
-
-function verFoto(cid, idx){
-  var c=clientes.find(function(x){return x.id===cid});
-  if(!c||!c.fotos||!c.fotos[idx]) return;
-  fotoViewerCid=cid; fotoViewerIdx=idx;
-  document.getElementById('foto-viewer-img').src=c.fotos[idx];
-  document.getElementById('foto-viewer-bg').classList.add('open');
-}
-
-function cerrarFotoViewer(){
-  document.getElementById('foto-viewer-bg').classList.remove('open');
-  document.getElementById('foto-viewer-img').src='';
-  fotoViewerCid=null; fotoViewerIdx=null;
-}
-
-function eliminarFotoVista(){
-  if(fotoViewerCid===null||fotoViewerIdx===null) return;
-  var c=clientes.find(function(x){return x.id===fotoViewerCid});
-  if(!c||!c.fotos) return;
-  c.fotos.splice(fotoViewerIdx,1);
-  save();
-  cerrarFotoViewer();
-  abierto=fotoViewerCid;
-  render();
-}
-
-var nuevoComercial='luis';
-function selNuevoCom(v){
-  nuevoComercial=v;
-  document.getElementById('ncom-luis').className='com-opt'+(v==='luis'?' sel-luis':'');
-  document.getElementById('ncom-cris').className='com-opt'+(v==='cristian'?' sel-cris':'');
-}
-
-var editandoId=null;
-function abrirEdicion(id){
-  var c=clientes.find(function(x){return x.id===id});
-  if(!c)return;
-  editandoId=id;
-  document.getElementById('e-nombre').value=c.nombre||'';
-  document.getElementById('e-tel').value=c.tel||'';
-  document.getElementById('e-email').value=c.email||'';
-  document.getElementById('e-dir').value=c.dir||'';
-  document.getElementById('ecom-luis').className='com-opt'+(c.comercial!=='cristian'?' sel-luis':'');
-  document.getElementById('ecom-cris').className='com-opt'+(c.comercial==='cristian'?' sel-cris':'');
-  document.getElementById('edit-modal-bg').classList.add('open');
-}
-function cerrarEdicion(){document.getElementById('edit-modal-bg').classList.remove('open');editandoId=null}
-function selEditCom(v){
-  document.getElementById('ecom-luis').className='com-opt'+(v==='luis'?' sel-luis':'');
-  document.getElementById('ecom-cris').className='com-opt'+(v==='cristian'?' sel-cris':'');
+function openEdit(id){
+  var c=getC(id);if(!c)return;
+  E('edit-id').value=id;
+  E('edit-nombre').value=c.nombre||'';
+  E('edit-tel').value=c.tel||'';
+  E('edit-email').value=c.email||'';
+  E('edit-dir').value=c.dir||'';
+  modalComercial['edit']=c.comercial||'luis';
+  selCom('edit',modalComercial['edit']);
+  openModal('editar');
 }
 function guardarEdicion(){
-  var c=clientes.find(function(x){return x.id===editandoId});
-  if(!c)return;
-  c.nombre=(document.getElementById('e-nombre').value||'').trim()||c.nombre;
-  c.tel=(document.getElementById('e-tel').value||'').trim();
-  c.email=(document.getElementById('e-email').value||'').trim();
-  c.dir=(document.getElementById('e-dir').value||'').trim();
-  c.comercial=document.getElementById('ecom-cris').classList.contains('sel-cris')?'cristian':'luis';
-  c.hist.push({f:now(),t:'Datos editados'});
-  save();cerrarEdicion();abierto=editandoId;render();
-}
-function mostrarConfirm(id){
-  var el=document.getElementById('confirm-'+id);
-  if(el)el.classList.add('show');
-}
-function ocultarConfirm(id){
-  var el=document.getElementById('confirm-'+id);
-  if(el)el.classList.remove('show');
-}
-function eliminarCliente(id){
-  clientes=clientes.filter(function(c){return c.id!==id});
-  abierto=null;
-  save();
-  render();
+  var id=parseInt(E('edit-id').value);
+  var c=getC(id);if(!c)return;
+  c.nombre=(E('edit-nombre').value||'').trim()||c.nombre;
+  c.tel=(E('edit-tel').value||'').trim();
+  c.email=(E('edit-email').value||'').trim();
+  c.dir=(E('edit-dir').value||'').trim();
+  c.comercial=modalComercial['edit']||'luis';
+  c.hist.push({f:nowStr(),t:'Datos editados',nota:false});
+  save();closeModal('editar');abierto=id;renderList();
 }
 
-document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
-document.getElementById('edit-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarEdicion()});
-document.getElementById('foto-viewer-bg').addEventListener('click',function(e){if(e.target===this)cerrarFotoViewer()});
-document.getElementById('pres-modal-bg').addEventListener('click',function(e){if(e.target===this)cerrarModalPresupuesto()});
-render();
+// Cerrar modales al pulsar fondo
+['modal-nuevo','modal-editar','modal-pres'].forEach(function(id){
+  var el=E(id);if(!el)return;
+  el.addEventListener('click',function(e){if(e.target===this)closeModal(id.replace('modal-',''))});
+});
+E('foto-viewer').addEventListener('click',function(e){if(e.target===this)closeFotoViewer()});
+
+// Init
+renderList();
 </script>
 </body>
 </html>
